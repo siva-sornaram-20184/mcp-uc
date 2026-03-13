@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Log360Cloud MCP — Stakeholder Presentation</title>
+<style>
+/* ══════════════════════════════════════════════
+   RESET & BASE
+   ══════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0a0a0f;color:#d4d4d4}
+
+/* ══════════════════════════════════════════════
+   SLIDE CONTAINER
+   ══════════════════════════════════════════════ */
+.deck{position:relative;width:100%;height:100%}
+.slide{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;padding:48px 72px;
+  opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s ease;
+  transform:translateX(0);
+  overflow-y:auto;
+}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.exit-left{opacity:0;transform:translateX(-40px)}
+.slide.exit-right{opacity:0;transform:translateX(40px)}
+
+/* ══════════════════════════════════════════════
+   PROGRESS BAR
+   ══════════════════════════════════════════════ */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#007acc,#4ec9b0,#e8a317,#c084fc,#e06c75);z-index:200;transition:width .4s ease}
+
+/* ══════════════════════════════════════════════
+   NAVIGATION
+   ══════════════════════════════════════════════ */
+.nav{position:fixed;bottom:20px;right:28px;display:flex;gap:10px;z-index:190}
+.nav button{
+  width:42px;height:42px;border-radius:50%;border:1px solid #3e3e42;
+  background:#1e1e1e;color:#ccc;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.nav button:hover{background:#333;color:#fff;border-color:#007acc}
+.nav button:disabled{opacity:.3;cursor:default}
+
+.slide-counter{position:fixed;bottom:26px;left:28px;font-size:12px;color:#555;z-index:190;font-variant-numeric:tabular-nums}
+
+/* Section indicator */
+.section-indicator{
+  position:fixed;top:14px;right:28px;font-size:11px;color:#666;z-index:190;
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+
+/* ══════════════════════════════════════════════
+   TYPOGRAPHY
+   ══════════════════════════════════════════════ */
+h1{font-size:clamp(26px,3.8vw,48px);font-weight:700;line-height:1.15;margin-bottom:14px}
+h2{font-size:clamp(20px,2.8vw,36px);font-weight:700;line-height:1.2;margin-bottom:12px}
+h3{font-size:clamp(16px,2vw,26px);font-weight:600;line-height:1.3;margin-bottom:10px;color:#9cdcfe}
+h4{font-size:17px;font-weight:600;margin-bottom:6px;color:#9cdcfe}
+p,.desc{font-size:clamp(13px,1.4vw,17px);line-height:1.7;color:#bbb;max-width:960px}
+.small{font-size:13px;color:#888;line-height:1.5}
+.tiny{font-size:11px;color:#666}
+
+.accent{color:#4ec9b0}
+.blue{color:#6cb6ff}
+.red{color:#e06c75}
+.yellow{color:#e8a317}
+.orange{color:#d19a66}
+.purple{color:#c084fc}
+.white{color:#fff}
+.green{color:#4ec9b0}
+.muted{color:#777}
+
+.center{text-align:center}
+.left-align{align-items:flex-start;text-align:left}
+.w100{width:100%;max-width:1120px}
+
+/* ══════════════════════════════════════════════
+   TAGS
+   ══════════════════════════════════════════════ */
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.tag{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600;letter-spacing:.3px}
+.tag.log360{background:#0078d418;color:#6cb6ff;border:1px solid #0078d440}
+.tag.falcon{background:#c5382a18;color:#e06c75;border:1px solid #c5382a40}
+.tag.sentinel{background:#6c2dc718;color:#c084fc;border:1px solid #6c2dc740}
+.tag.elastic{background:#00bfb318;color:#4ec9b0;border:1px solid #00bfb340}
+.tag.okta{background:#e8a31718;color:#e8a317;border:1px solid #e8a31740}
+.tag.palo{background:#ff634718;color:#ff8a65;border:1px solid #ff634740}
+.tag.m365{background:#1976d218;color:#64b5f6;border:1px solid #1976d240}
+.tag.sn{background:#62c35318;color:#81c784;border:1px solid #62c35340}
+.tag.aws{background:#ff990018;color:#ffb74d;border:1px solid #ff990040}
+.tag.zoho{background:#d9232218;color:#e06060;border:1px solid #d9232240}
+
+/* ══════════════════════════════════════════════
+   CARDS & GRIDS
+   ══════════════════════════════════════════════ */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;width:100%;max-width:1120px;margin:16px 0}
+.card-grid-2{grid-template-columns:repeat(2,1fr)}
+.card-grid-3{grid-template-columns:repeat(3,1fr)}
+.card-grid-4{grid-template-columns:repeat(4,1fr)}
+.card{
+  background:#12121c;border:1px solid #252535;border-radius:10px;
+  padding:20px;transition:.25s;
+}
+.card:hover{border-color:#007acc44;transform:translateY(-1px)}
+.card .icon{font-size:28px;margin-bottom:8px}
+.card h4{margin-top:0;color:#e0e0e0;font-size:15px}
+.card p,.card ul{font-size:13px;color:#999;line-height:1.55}
+.card ul{margin:6px 0 0 16px}
+.card li{margin-bottom:3px}
+
+.card.highlight{border-color:#007acc66;background:#0e1525}
+.card.red-border{border-color:#e06c7544}
+.card.green-border{border-color:#4ec9b044}
+.card.yellow-border{border-color:#e8a31744}
+.card.purple-border{border-color:#c084fc44}
+
+/* ══════════════════════════════════════════════
+   TABLES
+   ══════════════════════════════════════════════ */
+table{width:100%;max-width:1100px;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:#161625;color:#9cdcfe;padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid #252535}
+td{padding:9px 14px;border-bottom:1px solid #1e1e2e;color:#bbb}
+tr:hover td{background:#161625}
+td:first-child{color:#e0e0e0;font-weight:500}
+
+/* ══════════════════════════════════════════════
+   FLOW DIAGRAM (CSS-based)
+   ══════════════════════════════════════════════ */
+.flow{display:flex;align-items:center;gap:0;margin:20px 0;flex-wrap:wrap;justify-content:center}
+.flow-node{
+  padding:12px 18px;border-radius:10px;font-size:12px;font-weight:600;
+  text-align:center;min-width:110px;line-height:1.4;
+}
+.flow-arrow{color:#555;font-size:20px;margin:0 4px}
+.flow-node.attacker{background:#2a1520;border:1px solid #e06c7555;color:#e06c75}
+.flow-node.system{background:#151530;border:1px solid #6cb6ff44;color:#6cb6ff}
+.flow-node.log360{background:#0e1525;border:1px solid #007acc66;color:#4ec9b0}
+.flow-node.mcp{background:#1a1530;border:1px solid #c084fc66;color:#c084fc}
+.flow-node.vendor{background:#1a1a10;border:1px solid #e8a31755;color:#e8a317}
+.flow-node.result{background:#0e2518;border:1px solid #4ec9b066;color:#4ec9b0}
+
+/* ══════════════════════════════════════════════
+   METRIC BOXES
+   ══════════════════════════════════════════════ */
+.metrics{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:16px 0}
+.metric{
+  text-align:center;padding:16px 22px;border-radius:10px;
+  background:#12121c;border:1px solid #252535;min-width:130px;
+}
+.metric .num{font-size:28px;font-weight:800;line-height:1}
+.metric .label{font-size:11px;color:#888;margin-top:6px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ══════════════════════════════════════════════
+   BULLETS
+   ══════════════════════════════════════════════ */
+.bullets{max-width:1060px;width:100%}
+.bullets li{
+  font-size:clamp(13px,1.3vw,16px);color:#c8c8c8;margin-bottom:8px;
+  line-height:1.6;padding-left:4px;
+}
+.bullets li::marker{color:#4ec9b0}
+.bullets.compact li{margin-bottom:5px;font-size:14px}
+
+/* ══════════════════════════════════════════════
+   SPLIT LAYOUT
+   ══════════════════════════════════════════════ */
+.split{display:flex;gap:32px;width:100%;max-width:1120px;align-items:flex-start}
+.split .col{flex:1}
+.split .col-wide{flex:1.4}
+.split .col-narrow{flex:0.6}
+
+/* ══════════════════════════════════════════════
+   DIVIDER / SECTION SLIDES
+   ══════════════════════════════════════════════ */
+.section-slide{
+  background:linear-gradient(135deg,#0a0a15 0%,#0e1525 50%,#0a0a15 100%);
+}
+.section-slide h1{font-size:clamp(32px,4.5vw,56px)}
+.uc-badge{
+  display:inline-block;padding:6px 18px;border-radius:20px;font-size:13px;
+  font-weight:700;letter-spacing:1px;margin-bottom:14px;
+}
+.uc-badge.uc1{background:#c5382a22;color:#e06c75;border:1px solid #c5382a55}
+.uc-badge.uc2{background:#e8a31722;color:#e8a317;border:1px solid #e8a31755}
+.uc-badge.uc3{background:#0078d422;color:#6cb6ff;border:1px solid #0078d455}
+.uc-badge.uc4{background:#6c2dc722;color:#c084fc;border:1px solid #6c2dc755}
+.uc-badge.uc5{background:#00bfb322;color:#4ec9b0;border:1px solid #00bfb355}
+.uc-badge.uc6{background:#ff634722;color:#ff8a65;border:1px solid #ff634755}
+
+.subtitle{font-size:clamp(15px,1.8vw,22px);color:#888;margin-top:8px;font-weight:400}
+.value-line{
+  font-size:clamp(14px,1.5vw,19px);color:#4ec9b0;margin-top:10px;
+  font-weight:500;max-width:800px;text-align:center;
+}
+
+/* ══════════════════════════════════════════════
+   COMPARISON TABLE
+   ══════════════════════════════════════════════ */
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:1000px;width:100%;margin:14px 0}
+.vs-col{padding:20px 24px}
+.vs-col.before{background:#1a1015;border:1px solid #e06c7533;border-radius:10px 0 0 10px}
+.vs-col.after{background:#0e1a15;border:1px solid #4ec9b033;border-radius:0 10px 10px 0}
+.vs-col h4{margin-bottom:10px}
+.vs-col ul{margin:0;padding-left:18px}
+.vs-col li{font-size:13px;margin-bottom:6px;line-height:1.5}
+.vs-col.before li{color:#d4a0a0}
+.vs-col.after li{color:#a0d4bc}
+
+/* ══════════════════════════════════════════════
+   TIMELINE
+   ══════════════════════════════════════════════ */
+.timeline{max-width:900px;width:100%;margin:14px 0}
+.tl-item{display:flex;gap:14px;margin-bottom:10px;align-items:flex-start}
+.tl-dot{
+  width:10px;height:10px;border-radius:50%;margin-top:6px;flex-shrink:0;
+}
+.tl-dot.red{background:#e06c75}
+.tl-dot.yellow{background:#e8a317}
+.tl-dot.blue{background:#6cb6ff}
+.tl-dot.green{background:#4ec9b0}
+.tl-dot.purple{background:#c084fc}
+.tl-content{font-size:14px;line-height:1.5;color:#c8c8c8}
+.tl-content strong{color:#fff}
+.tl-time{font-size:11px;color:#666;margin-top:2px}
+
+/* Investigation Findings & Remediation */
+.inv-findings{margin-top:14px;padding:14px 18px;background:linear-gradient(135deg,#0f1018 60%,#141422);border:1px solid #252540;border-radius:10px;width:100%;max-width:1060px}
+.inv-findings h4{margin:0 0 8px;font-size:13px;letter-spacing:0.5px}
+.inv-findings .f-label{color:#e8a317}.inv-findings .r-label{color:#4ec9b0}
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.inv-grid ul{list-style:none;padding:0;margin:0}
+.inv-grid li{position:relative;padding-left:14px;margin-bottom:5px;font-size:12px;color:#bbb;line-height:1.45}
+.inv-grid .f-list li::before{content:'▸';position:absolute;left:0;color:#e8a317}
+.inv-grid .r-list li::before{content:'◆';position:absolute;left:0;color:#4ec9b0;font-size:8px;top:3px}
+
+/* ══════════════════════════════════════════════
+   ANIMATED GLOW
+   ══════════════════════════════════════════════ */
+.glow-box{
+  border:1px solid #007acc66;border-radius:12px;padding:20px 28px;
+  background:linear-gradient(135deg,#0e152580,#0a0a1580);
+  max-width:800px;text-align:center;
+}
+@keyframes pulse-border{
+  0%,100%{border-color:#007acc44}
+  50%{border-color:#007accaa}
+}
+.glow-box.pulse{animation:pulse-border 3s ease-in-out infinite}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════ */
+@media(max-width:900px){
+  .slide{padding:32px 28px}
+  .card-grid-3,.card-grid-4{grid-template-columns:1fr 1fr}
+  .split{flex-direction:column;gap:16px}
+  .vs-grid{grid-template-columns:1fr}
+  .vs-col.before{border-radius:10px 10px 0 0}
+  .vs-col.after{border-radius:0 0 10px 10px}
+  .flow{gap:4px}
+  .flow-node{min-width:80px;padding:8px 10px;font-size:11px}
+  .copilot-chat{max-height:60vh}
+  .chat-msg.user .chat-bubble{margin-left:20px}
+}
+
+/* ══════════════════════════════════════════════
+   COPILOT CHAT INTERFACE
+   ══════════════════════════════════════════════ */
+.copilot-chat{
+  width:100%;max-width:1060px;max-height:68vh;overflow-y:auto;
+  padding:16px;background:#1a1a2e;border:1px solid #252535;border-radius:12px;
+}
+.copilot-chat::-webkit-scrollbar{width:6px}
+.copilot-chat::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.chat-msg{margin-bottom:10px}
+.chat-bubble{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.55}
+.chat-msg.user .chat-bubble{background:#252540;border:1px solid #3e3e52;margin-left:40%}
+.chat-msg.copilot .chat-bubble{background:#12121c;border:1px solid #252535}
+.chat-role{font-size:11px;font-weight:700;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.chat-msg.user .chat-role{color:#6cb6ff}
+.chat-msg.copilot .chat-role{color:#c084fc}
+.copilot-bubble p{color:#bbb;margin:5px 0;font-size:13px}
+.tool-calls-phase{margin:6px 0}
+.phase-label{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 3px;padding-bottom:2px;border-bottom:1px solid #252535}
+.tool-call{
+  padding:5px 10px;margin:2px 0;background:#0e0e1a;border:1px solid #252535;
+  border-radius:6px;font-size:12px;color:#c8c8c8;cursor:pointer;transition:.2s;
+  font-family:'Cascadia Code','Fira Code',monospace;
+}
+.tool-call:hover{border-color:#007acc66;background:#151525}
+.tool-badge{
+  display:inline-block;padding:1px 6px;border-radius:4px;
+  font-size:10px;font-weight:700;margin-right:5px;font-family:'Segoe UI',sans-serif;
+}
+.tool-badge.log360{background:#0078d422;color:#6cb6ff}
+.tool-badge.crowdstrike{background:#c5382a22;color:#e06c75}
+.tool-badge.okta{background:#e8a31722;color:#e8a317}
+.tool-badge.m365{background:#1976d222;color:#64b5f6}
+.tool-badge.palo{background:#ff634722;color:#ff8a65}
+.tool-badge.sentinel{background:#6c2dc722;color:#c084fc}
+.tool-badge.elastic{background:#00bfb322;color:#4ec9b0}
+.tool-badge.sn{background:#62c35322;color:#81c784}
+.tool-badge.aws{background:#ff990022;color:#ffb74d}
+.tool-badge.github{background:#f0f0f012;color:#e0e0e0}
+.tool-badge.vt{background:#39469922;color:#6c7eb7}
+.tool-badge.qualys{background:#ed162422;color:#ed6874}
+.tool-badge.zoho{background:#d9232222;color:#e06060}
+
+/* Tool Classification Badges */
+.tool-type{
+  display:inline-block;padding:1px 5px;border-radius:3px;
+  font-size:9px;font-weight:600;margin-left:4px;font-family:'Segoe UI',sans-serif;
+  vertical-align:middle;letter-spacing:.3px;
+}
+.tool-type.official{background:#4ec9b022;color:#4ec9b0;border:1px solid #4ec9b044;display: none;}
+.tool-type.custom{background:#e8a31722;color:#e8a317;border:1px solid #e8a31744}
+.tool-type.community{background:#6cb6ff22;color:#6cb6ff;border:1px solid #6cb6ff44}
+.tool-type.rest-api{background:#ff8a6522;color:#ff8a65;border:1px solid #ff8a6544}
+
+/* Classification Legend */
+.legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:14px 0}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:#bbb}
+.legend-source{font-size:11px;color:#777;margin-top:2px}
+
+.tool-detail{
+  display:none;margin-top:5px;padding:7px 10px;
+  background:#0a0a14;border-radius:4px;font-size:11px;
+  border-left:2px solid #007acc44;font-family:'Segoe UI',sans-serif;
+}
+.tool-call.expanded .tool-detail{display:block}
+.tool-req{color:#888;margin-bottom:2px}
+.tool-res{color:#4ec9b0}
+.chat-summary{
+  margin-top:8px;padding:8px 12px;background:#0e2518;
+  border:1px solid #4ec9b044;border-radius:6px;color:#4ec9b0;
+  font-weight:500;font-size:12px;
+}
+
+/* ══════════════════════════════════════════════
+   FLOW CONNECTOR
+   ══════════════════════════════════════════════ */
+.flow-connector{text-align:center;color:#555;font-size:14px;margin:2px 0;line-height:1.3}
+.flow-connector .conn-label{font-size:10px;color:#777;letter-spacing:.3px}
+
+/* ══════════════════════════════════════════════
+   IDEATION BADGE
+   ══════════════════════════════════════════════ */
+.ideation-badge{
+  display:inline-block;padding:5px 14px;border-radius:16px;font-size:11px;
+  font-weight:600;background:#e8a31714;color:#e8a317;border:1px solid #e8a31740;
+  letter-spacing:.3px;
+}
+
+/* ══════════════════════════════════════════════
+   SLIDE PICKER OVERLAY
+   ══════════════════════════════════════════════ */
+.slide-picker-backdrop{
+  position:fixed;inset:0;background:rgba(5,5,10,.88);z-index:300;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+  display:flex;align-items:center;justify-content:center;
+}
+.slide-picker-backdrop.open{opacity:1;pointer-events:auto}
+
+.slide-picker-panel{
+  width:92vw;max-width:1200px;max-height:82vh;overflow-y:auto;
+  padding:28px 24px 20px;border-radius:14px;
+  background:#111120;border:1px solid #252535;
+  transform:scale(.92);transition:transform .3s ease;
+}
+.slide-picker-backdrop.open .slide-picker-panel{transform:scale(1)}
+
+.slide-picker-panel::-webkit-scrollbar{width:6px}
+.slide-picker-panel::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+.sp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #252535;
+}
+.sp-header h3{font-size:16px;color:#e0e0e0;margin:0}
+.sp-close{
+  width:32px;height:32px;border-radius:50%;border:1px solid #3e3e42;
+  background:#1e1e1e;color:#ccc;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.sp-close:hover{background:#333;color:#fff;border-color:#007acc}
+
+.sp-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;
+}
+.sp-card{
+  cursor:pointer;border-radius:8px;overflow:hidden;
+  border:2px solid #252535;background:#0a0a14;transition:.25s;
+  position:relative;
+}
+.sp-card:hover{border-color:#007acc88;transform:translateY(-2px)}
+.sp-card.sp-active{border-color:#4ec9b0;box-shadow:0 0 12px #4ec9b033}
+
+.sp-thumb{
+  width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;
+  background:#08080f;
+}
+.sp-thumb-inner{
+  position:absolute;top:0;left:0;
+  width:1920px;height:1080px;
+  transform-origin:top left;
+  pointer-events:none;
+}
+.sp-thumb-inner .slide{
+  position:relative !important;opacity:1 !important;pointer-events:none !important;
+  width:1920px !important;height:1080px !important;
+  transform:none !important;
+}
+
+.sp-label{
+  padding:7px 10px;display:flex;align-items:center;gap:6px;
+}
+.sp-num{
+  font-size:10px;font-weight:700;color:#555;min-width:20px;
+  text-align:center;background:#1a1a2e;border-radius:4px;padding:2px 5px;
+}
+.sp-title{
+  font-size:11px;color:#bbb;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;line-height:1.3;
+}
+.sp-section{
+  font-size:9px;color:#666;letter-spacing:.5px;text-transform:uppercase;
+  padding:0 10px 6px;margin-top:-2px;
+}
+
+/* Toggle button */
+.slide-picker-toggle{
+  width:42px;height:42px;border-radius:50%;border:1px solid #3e3e42;
+  background:#1e1e1e;color:#ccc;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+.slide-picker-toggle:hover{background:#333;color:#fff;border-color:#007acc}
+
+/* ══════════════════════════════════════════════
+   LIGHTBOX / MODAL FOR SCREENSHOTS
+   ══════════════════════════════════════════════ */
+.lightbox-backdrop{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:rgba(0,0,0,.92);z-index:9999;
+  display:none;align-items:center;justify-content:center;
+  cursor:zoom-out;
+}
+.lightbox-backdrop.open{display:flex}
+.lightbox-backdrop img{
+  max-width:92vw;max-height:90vh;border-radius:10px;
+  box-shadow:0 8px 40px rgba(0,0,0,.6);
+  cursor:default;
+}
+.lightbox-close{
+  position:fixed;top:18px;right:24px;z-index:10000;
+  background:none;border:none;color:#fff;font-size:28px;
+  cursor:pointer;opacity:.7;transition:.2s;
+}
+.lightbox-close:hover{opacity:1}
+.screenshot-thumb{cursor:zoom-in;transition:transform .2s,box-shadow .2s}
+.screenshot-thumb:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(108,182,255,.25)}
+/* ══════════════════════════════════════════════
+   GITHUB COPILOT UI PANEL (Investigation Results)
+   ══════════════════════════════════════════════ */
+.copilot-ui{
+  width:100%;max-width:1080px;background:#1e1e1e;
+  border:1px solid #333;border-radius:10px;overflow:hidden;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+}
+.copilot-ui-header{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;background:#181818;
+  border-bottom:1px solid #2d2d2d;
+  font-size:13px;font-weight:600;color:#ccc;
+}
+.copilot-ui-header .cp-sparkle{color:#c084fc;font-size:16px}
+.copilot-ui-header .cp-title{color:#e0e0e0;font-weight:600}
+.copilot-ui-header .cp-mode{
+  margin-left:auto;font-size:11px;color:#999;
+  background:#2d2d2d;padding:3px 10px;border-radius:4px;
+  display:flex;align-items:center;gap:4px;
+}
+.copilot-ui-header .cp-mode .cp-dot{
+  width:6px;height:6px;border-radius:50%;background:#4ec9b0;
+}
+.copilot-ui-body{padding:16px 18px;max-height:63vh;overflow-y:auto}
+.copilot-ui-body::-webkit-scrollbar{width:6px}
+.copilot-ui-body::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.copilot-ui-msg{display:flex;gap:10px;margin-bottom:16px;align-items:flex-start}
+.copilot-ui-avatar{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:13px;margin-top:2px;
+}
+.copilot-ui-msg.u-msg .copilot-ui-avatar{background:#264f78;color:#6cb6ff}
+.copilot-ui-msg.b-msg .copilot-ui-avatar{background:#2d1b4e;color:#c084fc}
+.copilot-ui-text{flex:1;min-width:0}
+.copilot-ui-role{
+  font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:5px;
+}
+.copilot-ui-msg.u-msg .copilot-ui-role{color:#6cb6ff}
+.copilot-ui-msg.b-msg .copilot-ui-role{color:#c084fc}
+.copilot-ui-msg.u-msg .copilot-ui-text>p{
+  font-size:13px;color:#e0e0e0;margin:0;
+  background:#252540;padding:9px 14px;border-radius:10px;
+  border:1px solid #3e3e52;display:inline-block;line-height:1.5;
+}
+.copilot-ui-response{margin-top:4px}
+.copilot-ui-response>p.cp-intro{
+  font-size:13px;color:#bbb;margin:0 0 6px;line-height:1.5;
+}
+.copilot-ui-response h5{
+  font-size:13px;color:#e0e0e0;margin:14px 0 7px;
+  font-weight:600;display:flex;align-items:center;gap:6px;
+}
+.copilot-ui-response h5:first-child{margin-top:6px}
+.copilot-ui-response ul{list-style:none;padding:0;margin:0}
+.copilot-ui-response li{
+  position:relative;padding-left:16px;margin-bottom:5px;
+  font-size:12px;color:#bbb;line-height:1.55;
+}
+.copilot-ui-response .fl li::before{
+  content:'▸';position:absolute;left:0;color:#e8a317;
+}
+.copilot-ui-response .al li::before{
+  content:'◆';position:absolute;left:0;color:#4ec9b0;
+  font-size:8px;top:3px;
+}
+.copilot-ui-callout{
+  margin-top:14px;padding:10px 14px;
+  background:linear-gradient(135deg,#0e152580,#0a1a3580);
+  border:1px solid #007acc44;border-radius:8px;
+  font-size:12px;color:#ccc;line-height:1.55;
+}
+.copilot-ui-callout strong{color:#4ec9b0}
+.copilot-ui-tools-used{
+  display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px;
+}
+.copilot-ui-tools-used .cp-tool-tag{
+  font-size:10px;padding:3px 8px;border-radius:4px;
+  font-weight:600;letter-spacing:.3px;
+}
+.copilot-ui-tools-used .cp-tool-tag.t-log360{background:#007acc22;color:#6cb6ff;border:1px solid #007acc44}
+.copilot-ui-tools-used .cp-tool-tag.t-crowdstrike{background:#e8431722;color:#e84317;border:1px solid #e8431744}
+.copilot-ui-tools-used .cp-tool-tag.t-okta{background:#00297a22;color:#6cb6ff;border:1px solid #00297a44}
+.copilot-ui-tools-used .cp-tool-tag.t-m365{background:#d83b0122;color:#ff6b4a;border:1px solid #d83b0144}
+.copilot-ui-tools-used .cp-tool-tag.t-sn{background:#62d84e22;color:#62d84e;border:1px solid #62d84e44}
+.copilot-ui-tools-used .cp-tool-tag.t-vt{background:#39478622;color:#6cb6ff;border:1px solid #39478644}
+.copilot-ui-input-bar{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;border-top:1px solid #2d2d2d;background:#252526;
+}
+.copilot-ui-input-bar input{
+  flex:1;background:#3c3c3c;border:1px solid #555;
+  border-radius:8px;padding:9px 14px;color:#888;
+  font-size:12px;outline:none;cursor:default;
+}
+.copilot-ui-input-bar .cp-send{
+  width:30px;height:30px;border-radius:6px;border:none;
+  background:#007acc;color:#fff;font-size:14px;cursor:default;
+  display:flex;align-items:center;justify-content:center;opacity:.5;
+}
+
+
+/* ══════════════════════════════════════════════
+   INVESTIGATION TOOLS DROPDOWN
+   ══════════════════════════════════════════════ */
+.investigation-tools-dropdown{margin:14px 0 4px;border:1px solid #2a2a3a;border-radius:8px;overflow:hidden;background:#111120}
+.itd-toggle{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;background:#161625;transition:.2s;user-select:none}
+.itd-toggle:hover{background:#1c1c30}
+.itd-icon{font-size:10px;color:#c084fc;transition:transform .25s;display:inline-block}
+.investigation-tools-dropdown.open .itd-icon{transform:rotate(90deg)}
+.itd-label{font-size:12px;font-weight:600;color:#bbb;flex:1}
+.itd-badge{font-size:10px;padding:2px 8px;border-radius:4px;background:#c084fc18;color:#c084fc;border:1px solid #c084fc33;letter-spacing:.3px}
+.itd-content{display:none;padding:10px 12px;max-height:50vh;overflow-y:auto}
+.itd-content::-webkit-scrollbar{width:6px}
+.itd-content::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.investigation-tools-dropdown.open .itd-content{display:block}
+.investigation-tools-dropdown.open .itd-toggle{border-bottom:1px solid #252535}
+.itd-content .copilot-chat{max-height:none;border:none;background:transparent;padding:4px 0}
+.itd-content .chat-msg.user .chat-bubble{margin-left:0}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="section-indicator" id="sectionIndicator"></div>
+<div class="slide-counter" id="slideCounter"></div>
+
+<div class="deck" id="deck">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="slide section-slide active" data-section="Introduction">
+  <p class="small" style="letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;color:#666">Log360 Cloud × Model Context Protocol</p>
+  <h1 class="center"><span class="white">One AI. Every Security Tool.</span><br><span class="accent">Unified Visibility.</span></h1>
+  <p class="subtitle center" style="margin-top:14px">How Log360Cloud MCP Orchestrates Cross-Vendor Security Investigations</p>
+  <div class="tags" style="margin-top:24px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+    <span class="tag okta">OKTA</span>
+    <span class="tag aws">AWS CLOUDTRAIL</span>
+    <span class="tag m365">M365 DEFENDER</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="slide left-align" data-section="Introduction">
+  <h2><span class="red">The Problem:</span> Security Is Fragmented by Design</h2>
+  <p class="desc" style="margin-bottom:18px">Every enterprise runs multiple security tools. Each sees a fragment. No single tool sees the full attack.</p>
+  <div class="card-grid card-grid-3">
+    <div class="card red-border">
+      <div class="icon"></div>
+      <h4>Swivel-Chair Operations</h4>
+      <p>Analysts toggle between 5–8 consoles per investigation, copy-pasting IOCs manually</p>
+    </div>
+    <div class="card red-border">
+      <div class="icon"></div>
+      <h4>Slow Correlation</h4>
+      <p>Cross-vendor log correlation takes 2–4 hours manually. Attackers move in minutes.</p>
+    </div>
+    <div class="card red-border">
+      <div class="icon"></div>
+      <h4>Invisible Gaps</h4>
+      <p>Detection coverage gaps are only found after a breach — not before</p>
+    </div>
+  </div>
+  <div class="glow-box" style="margin-top:20px">
+    <p style="font-size:15px;color:#e0e0e0"><strong class="accent">MCP changes this.</strong> Any AI client that supports MCP. One conversation. Every tool connected. Accelerated kill chain correlation in minutes.</p>
+    <!-- <p class="tiny" style="margin-top:8px;color:#888">MCP serves as an orchestration and correlation layer — it does not replace your SIEM, EDR, CSPM, or GRC tools.</p> -->
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 3 — WHAT IS MCP
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="slide left-align" data-section="Introduction">
+  <h2>What Is <span class="accent">MCP</span>?</h2>
+  <p class="desc" style="margin-bottom:16px">Model Context Protocol — a standardized way for AI models to call security tools in real-time.</p>
+  <div class="split">
+    <div class="col">
+      <h4>How It Works</h4>
+      <ul class="bullets compact">
+        <li>AI client receives analyst's question in natural language</li>
+        <li>Each security vendor publishes its <strong>own MCP server</strong> independently</li>
+        <li>AI client connects to multiple vendor MCP servers simultaneously</li>
+        <li>AI orchestrates cross-vendor queries, correlating results in real-time</li>
+        <li>Results synthesized into a single, actionable narrative</li>
+      </ul>
+    </div>
+    <div class="col">
+      <h4>The Architecture <span class="small" style="font-weight:400">(vendor-specific MCP servers)</span></h4>
+      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
+        <div class="flow-node mcp" style="text-align:center"> AI Client (GitHub Copilot / Claude)</div>
+        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">CONNECTS TO EACH VENDOR'S OWN MCP SERVER</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+          <div class="flow-node log360" style="min-width:auto;padding:8px 10px">Log360 MCP Server<br><span style="font-size:9px">Alerts · NLQ · UEBA · TI</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">CrowdStrike MCP<br><span style="font-size:9px">falcon-mcp</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">Okta MCP<br><span style="font-size:9px">okta-mcp-server</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">AWS CloudTrail MCP<br><span style="font-size:9px">cloudtrail-mcp-server</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">M365 Defender MCP<br><span style="font-size:9px">m365-defender-mcp-server</span></div>
+        </div>
+      </div>
+      <!-- <p class="tiny" style="margin-top:6px;text-align:center"> MCP is <strong>not</strong> shared middleware — each vendor runs its own server independently.</p> -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 4 — TOOL CLASSIFICATION (REMOVED — key note moved to Agenda)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SLIDE 4 — AGENDA
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="slide" data-section="Introduction">
+  <h2 class="center">5 Real-World Use Cases</h2>
+  <p class="desc center" style="margin-bottom:8px">Each demonstrated with actual MCP tool calls, measurable outcomes, and cross-vendor orchestration</p>
+  <div class="card-grid card-grid-3" style="max-width:1060px">
+    <div class="card" style="border-color:#ff8a6544;cursor:pointer">
+      <h4><span class="orange">UC 1</span> — User 360° Profile</h4>
+      <p>Impossible travel + MFA fatigue + EDR offline. Full identity-endpoint-auth-ticket correlation in one conversation.</p>
+      <p class="tiny" style="margin-top:6px">Cross-vendor orchestration · 5 vendors</p>
+    </div>
+    <div class="card yellow-border">
+      <h4><span class="yellow">UC 2</span> — Executive Incident Summary</h4>
+      <p>Board-ready incident summary for the last 7 days. Severity breakdown, trends, MTTR, and key incidents — one ask.</p>
+      <p class="tiny" style="margin-top:6px">Cross-platform orchestration · 2 vendors</p>
+    </div>
+    <div class="card" style="border-color:#4ec9b044">
+      <h4><span class="accent">UC 3</span> — Password Spray → Privilege Escalation</h4>
+      <p>Kerberos spray on DC01 → finance1 compromised → RDP lateral movement → Domain Admin escalation via runas</p>
+      <p class="tiny" style="margin-top:6px">Cross-vendor orchestration · 2 vendors</p>
+    </div>
+    <div class="card red-border" style="cursor:pointer">
+      <h4><span class="red">UC 4</span> — Ransomware Kill Chain</h4>
+      <p>Phishing → PowerShell → Lateral Movement → C2 → Accelerated investigation in minutes</p>
+      <p class="tiny" style="margin-top:6px">Cross-vendor orchestration · 4 vendors</p>
+    </div>
+    <div class="card" style="border-color:#6cb6ff44">
+      <h4><span class="blue">UC 5</span> — Threat Hunt from Blog Intelligence</h4>
+      <p>Qualys Empire C2 blog → extract TTPs &amp; IOCs → search across all platforms → findings + detection rule suggestion.</p>
+      <p class="tiny" style="margin-top:6px">Cross-vendor orchestration · 2 vendors</p>
+    </div>
+  </div>
+  <p class="small center" style="margin-top:14px;color:#777"><strong>Note:</strong> CrowdStrike falcon-mcp and Okta okta-mcp-server are <strong>read-only</strong> MCP servers. All tool calls in these use cases are read-only investigation operations.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ USE CASE 1: USER 360° PROFILE — ACCOUNT TAKEOVER TRIAGE ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- UC1 — TITLE -->
+<div class="slide section-slide" data-section="UC1: User 360° Profile">
+  <span class="uc-badge uc1">USE CASE 1</span>
+  <h1 class="center"><span class="white">User 360° Profile</span><br><span class="orange">Account Takeover Triage</span></h1>
+  <p class="value-line">Identity · Endpoint · Auth · Ticketing — one conversation, one complete picture</p>
+  <div class="tags" style="margin-top:18px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+    <span class="tag okta">OKTA</span>
+    <span class="tag zoho">ZOHO DIRECTORY</span>
+    <span class="tag sn">SERVICENOW</span>
+  </div>
+</div>
+
+<!-- UC1 — VISUAL STORY DIAGRAM -->
+<div class="slide left-align" data-section="UC1: User 360° Profile">
+  <h3>Attack Flow &amp; MCP Investigation</h3>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node system"> jsmith_admin<br><span style="font-size:10px">Domain Admin · DevOps</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Password Reset<br><span style="font-size:10px">22 Feb — walk-in</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> After-Hours Login<br><span style="font-size:10px">04 Mar 03:12 IST</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> EDR Goes Offline<br><span style="font-size:10px">05 Mar 23:01</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Impossible travel &amp; MFA fatigue — potential account takeover</span> ↓</div>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node attacker"> 14 MFA Failures<br><span style="font-size:10px">Frankfurt · 5 min burst</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> MFA Bypass Login<br><span style="font-size:10px">09:14 IST · Frankfurt</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker" style="background:#2a1520;border-color:#e06c75;color:#e06c75"> Impossible Travel<br><span style="font-size:10px">Coimbatore → Frankfurt 27 min</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Mimikatz Pattern<br><span style="font-size:10px">WKSN-4471</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">SOC analyst requests User 360° Profile via MCP</span> ↓</div>
+  <div class="flow">
+    <div class="flow-node log360"> Log360 Cloud<br><span style="font-size:10px">Alerts · VPN · UEBA</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node mcp"> MCP Copilot<br><span style="font-size:10px">Cross-vendor orchestration</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node vendor"> Okta · Zoho Dir · CrowdStrike · SNOW<br><span style="font-size:10px">Identity + Directory + EDR + Tickets</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result"> 360° User Profile<br><span style="font-size:10px">Correlated in minutes</span></div>
+  </div>
+  <h3>What Happened?</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>22 Feb:</strong> jsmith_admin password reset via in-person help desk walk-in (INC0043210 — Closed)<div class="tl-time">Earliest notable event — all anomalous activity begins after this date</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>28 Feb:</strong> Elevated access granted to production Kubernetes cluster (REQ0078234 — Approved)<div class="tl-time">Privilege escalation via legitimate request channel</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>04 Mar 03:12 IST:</strong> After-hours login from Coimbatore — outside normal business hours pattern<div class="tl-time">Medium severity alert · First behavioral deviation</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>05 Mar 23:01:</strong> CrowdStrike EDR agent on WKSN-4471 goes offline — sensor version 7.14.16804 (one version behind)<div class="tl-time">Unusual PowerShell execution detected on endpoint · Mimikatz pattern</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>06 Mar 08:47 IST:</strong> Last Coimbatore login — normal VPN session active<div class="tl-time">Legitimate session from expected location</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>06 Mar 09:08 IST:</strong> 14 MFA challenges fail rapidly from Frankfurt IP in 5-minute burst<div class="tl-time">MFA fatigue / brute-force pattern · Okta Threat Insight flagged</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>06 Mar 09:14 IST:</strong> Successful login from Frankfurt — <strong>27 minutes after last Coimbatore login. Impossible travel confirmed.</strong><div class="tl-time">Concurrent VPN sessions from Coimbatore AND Frankfurt · 3 active SSO sessions (AWS, Azure, GitHub)</div></div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-content"><strong>Current state:</strong> 2 active VPN sessions (dual continent), EDR offline, 1 open Mimikatz detection, 3 of 4 alerts open. <strong>🔴 Risk Level: HIGH</strong></div></div>
+  </div>
+</div>
+
+
+<!-- UC1 — INVESTIGATION RESULT -->
+<div class="slide left-align" data-section="UC1: User 360° Profile">
+  <div class="copilot-ui">
+    <div class="copilot-ui-header">
+      <span class="cp-sparkle">✦</span>
+      <span class="cp-title">Copilot</span>
+      <span class="cp-mode"><span class="cp-dot"></span> Agent</span>
+    </div>
+    <div class="copilot-ui-body">
+      <div class="copilot-ui-msg u-msg">
+        <div class="copilot-ui-avatar">👤</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">SOC Analyst</div>
+          <p>Give me a complete 360 profile for jsmith_admin</p>
+        </div>
+      </div>
+      <div class="copilot-ui-msg b-msg">
+        <div class="copilot-ui-avatar">✦</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">Copilot</div>
+          <div class="copilot-ui-response">
+            <p class="cp-intro">I’ve correlated identity, endpoint, authentication, and ticketing data across 5 platforms. Here’s the full 360° profile for <strong>jsmith_admin</strong>:</p>
+            <!-- <div class="copilot-ui-tools-used">
+        <span class="cp-tool-tag t-log360">LOG360 SIEM</span>
+        <span class="cp-tool-tag t-crowdstrike">CROWDSTRIKE EDR</span>
+        <span class="cp-tool-tag t-okta">OKTA IAM</span>
+        <span class="cp-tool-tag t-sn">SERVICENOW</span>
+            </div> -->
+            <h5>🔍 Key Findings</h5>
+            <ul class="fl">
+            <li><strong>Impossible Travel Confirmed:</strong> Login from Frankfurt at 09:14 IST — only 27 minutes after last Coimbatore login at 08:47 IST</li>
+            <li><strong>MFA Fatigue Attack:</strong> 14 rapid MFA challenges failed in 5 minutes from Frankfurt IP before successful bypass at 09:14 IST</li>
+            <li><strong>EDR Offline:</strong> CrowdStrike sensor on WKSN-4471 offline since 05 Mar 23:01 — Mimikatz credential-dumping detection (T1003) found prior to offline event</li>
+            <li><strong>Concurrent Sessions:</strong> 2 active VPN tunnels from Coimbatore and Frankfurt simultaneously — 3 active SSO sessions (AWS, Azure, GitHub)</li>
+            <li><strong>Privilege Escalation Timeline:</strong> Password reset (22 Feb) → K8s prod access granted (28 Feb) → after-hours login (04 Mar) → EDR disabled + Mimikatz (05 Mar) → impossible travel (06 Mar)</li>
+            <li><strong>Open Tickets:</strong> INC0043891 “Cannot access Azure portal” may indicate session conflict between legitimate user and attacker</li>
+            </ul>
+            <h5>🛡️ Recommended Actions</h5>
+            <ul class="al">
+            <li>Immediately revoke all active sessions for jsmith_admin across Okta, AWS, Azure, and GitHub</li>
+            <li>Force MFA re-enrollment — disable current Microsoft Authenticator token and require in-person YubiKey re-registration</li>
+            <li>Re-enroll and update CrowdStrike sensor on WKSN-4471 — investigate why it went offline</li>
+            <li>Reset password via secure channel (not self-service) and rotate all service account credentials accessible by this user</li>
+            <li>Review K8s-Prod-Cluster-Admins access grant (REQ0078234) — verify the approval chain was not socially engineered</li>
+            <li>Escalate to P1 incident — engage IR team to assess whether production Kubernetes or AWS environments were accessed from the Frankfurt session</li>
+            </ul>
+            <!-- <div class="copilot-ui-callout">
+              <strong>Cross-Tool Correlations:</strong> Password reset (ServiceNow) preceded all anomalous activity · EDR offline + Mimikatz (CrowdStrike) while device still shows “Managed” in Okta trust · MFA fatigue pattern (Okta) followed by Frankfurt login · Dual-continent VPN (Log360) confirms concurrent unauthorized access · Open Azure ticket may indicate attacker-victim session conflict
+            </div> -->
+            <div class="investigation-tools-dropdown">
+              <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
+                <span class="itd-icon">▶</span>
+                <span class="itd-label">View Full Investigation — 5 Phases, 13 Tool Calls</span>
+                <span class="itd-badge">Click to expand</span>
+              </div>
+              <div class="itd-content">
+                <div class="copilot-chat">
+    <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role"> SOC Analyst</div>Give me a complete 360 profile for jsmith_admin</div></div>
+    <div class="chat-msg copilot"><div class="chat-bubble">
+      <div class="chat-role">Copilot</div>
+      <p>On it. Let me pull alerts, identity details, and endpoint status for jsmith_admin across your security stack.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 1 — Alert Triage &amp; Identity Resolution</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(query: 'USERNAME="jsmith_admin"', time: -48h, severity: "critical,trouble,attention") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Analyst reported an impossible travel alert — pulling all SIEM alerts for this user first to understand the full scope before investigating</div><div class="tool-res">✓ 4 alerts: 🔴 CRITICAL "Impossible travel — Coimbatore → Frankfurt" (06 Mar) · 🟠 HIGH "14 failed MFA challenges in 5 min" (06 Mar) · 🟠 HIGH "Unusual PowerShell execution on WKSN-4471" (05 Mar) · 🟡 MEDIUM "Login outside business hours" (04 Mar) — <strong>3 of 4 currently open</strong></div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge okta">Okta</span> get_user(userId: "jsmith_admin") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Now resolving who jsmith_admin is — need identity, MFA enrollment, SSO apps, and registered devices</div><div class="tool-res">✓ Status: ACTIVE · MFA: Microsoft Authenticator (primary) + YubiKey 5 (backup) · Last password change: 22 Feb 2026 · SSO Apps (7): AWS Console, Azure Portal, GitHub Enterprise, Jira, ServiceNow, Slack, Salesforce · Device WKSN-4471: Registered as Managed &amp; Trusted in Okta Device Trust</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge zoho">Zoho Directory</span> get_user(userId: "jsmith_admin") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Enriching identity with org context — employee role, reporting chain, and AD group memberships from Zoho Directory</div><div class="tool-res">✓ John Smith · Senior DevOps Engineer · Cloud Infrastructure · emp#10234 · Coimbatore office · Reports to: Priya Raghavan · With org since: Mar 2021 · AD Groups: Domain Admins, Azure-Prod-Contributors, VPN-FullTunnel, K8s-Prod-Cluster-Admins (added 28 Feb)</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e8a317">4 open alerts + high-privilege account:</strong> Impossible travel (Critical), MFA brute-force, and PowerShell execution on WKSN-4471. User holds Domain Admin + Azure-Prod-Contributors + K8s-Prod-Cluster-Admins (recently granted 28 Feb). Alerts flagged PowerShell activity on WKSN-4471 and the analyst confirms EDR is offline — investigating the endpoint next.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 2 — Endpoint Investigation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_hosts(filter: "hostname:'WKSN-4471'") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ WKSN-4471 identified from Okta device trust (Phase 1). Alerts flagged "Unusual PowerShell execution" on this host and analyst says EDR is offline — verifying device and sensor status via CrowdStrike</div><div class="tool-res">✓ WKSN-4471 · Windows 11 Pro · OS Patch: Feb 2026 cumulative (current) · Sensor: 7.14.16804 (one version behind) · <strong style="color:#e06c75">Status: OFFLINE since 05 Mar 23:01</strong> · Device trust: Managed (Okta)</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "device.hostname:'WKSN-4471'", sort: "last_behavior|desc", limit: 10) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Sensor confirmed offline since 05 Mar 23:01 — checking for detections that fired before the sensor went dark</div><div class="tool-res">✓ 1 open detection: <strong style="color:#e06c75">"PowerShell Mimikatz Pattern"</strong> — Severity: High · Tactic: Credential Access (T1003) · Detected: 05 Mar · Status: new (unresolved)</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">Critical endpoint concern:</strong> EDR went offline 05 Mar 23:01 — just hours after a Mimikatz credential-dumping detection (T1003). The device still shows "Managed &amp; Trusted" in Okta, meaning sessions from this device remain trusted. Credentials may already be compromised — verifying the impossible travel claim through authentication logs next.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 3 — Authentication Timeline (Last 48 Hours)</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "all successful and failed logon events for jsmith_admin in the last 48 hours") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Impossible travel alert flagged in Phase 1, Mimikatz suggests credential theft in Phase 2 — mapping the authentication timeline to verify whether logins occurred from both Coimbatore and Frankfurt</div><div class="tool-res">✓ Generated query: EVENTID IN (4624, 4625) AND USERNAME = "jsmith_admin"</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENTID IN (4624, 4625) AND USERNAME = "jsmith_admin"', log_type: "Windows", time: -48h) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute generated query against Windows logs, last 48 hours</div><div class="tool-res">✓ Regular logins from Coimbatore during business hours (04–06 Mar) · After-hours login: 04 Mar 03:12 IST from Coimbatore · Last Coimbatore login: 06 Mar 08:47 IST</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge okta">Okta</span> get_logs(filter: "actor.alternateId eq \"jsmith_admin\"", since: "2026-03-04T00:00:00Z") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Windows logs show last Coimbatore login at 08:47 IST — cross-referencing Okta SSO/MFA logs to find the Frankfurt login and verify MFA failure pattern from the alert</div><div class="tool-res">✓ 06 Mar 09:08 IST: <strong style="color:#e06c75">14 MFA challenges FAILED in 5 minutes</strong> from Frankfurt IP · 06 Mar 09:14 IST: Successful login from Frankfurt · Okta Threat Insight: SUSPICIOUS · 3 active SSO sessions: AWS, Azure, GitHub</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">Impossible travel confirmed:</strong> Frankfurt login at 09:14 IST — only 27 minutes after last Coimbatore login at 08:47 IST. 14 rapid MFA failures preceded the successful login, suggesting MFA fatigue or token bypass. Need to verify whether both locations had active network access, and audit the recent K8s privilege grant flagged in Phase 1.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 4 — Network &amp; Privilege Audit</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "active and recent VPN sessions for jsmith_admin in the last 48 hours") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Logins confirmed from both Coimbatore and Frankfurt — checking VPN to determine if both locations had concurrent active network sessions</div><div class="tool-res">✓ Generated query: EVENTID IN (6272, 6273) AND USERNAME = "jsmith_admin"</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENTID IN (6272, 6273) AND USERNAME = "jsmith_admin"', time: -48h) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute generated query against VPN logs, last 48 hours</div><div class="tool-res">✓ 2 concurrent active VPN sessions: Session 1 — Coimbatore (business hours, expected) · <strong style="color:#e06c75">Session 2 — Frankfurt, Germany (unexpected, post-MFA bypass)</strong></div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "AD group membership changes for jsmith_admin in the last 30 days") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Zoho Directory (Phase 1) showed K8s-Prod-Cluster-Admins was added 28 Feb — auditing when and how this sensitive privilege was granted, since all anomalous activity follows that date</div><div class="tool-res">✓ Generated query: EVENTID IN (4728, 4732, 4756) AND USERNAME = "jsmith_admin"</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENTID IN (4728, 4732, 4756) AND USERNAME = "jsmith_admin"', log_type: "Windows", time: -30d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute generated query against Windows logs, last 30 days</div><div class="tool-res">✓ 28 Feb: Added to K8s-Prod-Cluster-Admins (elevated access grant) — correlates with service request REQ0078234</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">Dual-location access confirmed + recent privilege escalation:</strong> Concurrent VPN sessions active from Coimbatore and Frankfurt. K8s-Prod-Cluster-Admins was granted 28 Feb via REQ0078234 — this elevated access to production Kubernetes may be the attacker's objective. Pulling ServiceNow tickets to map the full event timeline.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 5 — ServiceNow Ticket Correlation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge sn">ServiceNow</span> search_incidents(query: "caller=jsmith_admin", sysparm_limit: 10) <span class="tool-type custom">Custom</span><div class="tool-detail"><div class="tool-req">→ K8s group change (Phase 4) correlates with REQ0078234 — pulling all tickets for jsmith_admin to build the complete event timeline and check for earlier suspicious activity</div><div class="tool-res">✓ 3 tickets: INC0043891 "Cannot access Azure portal" (Open) · REQ0078234 "Elevated K8s prod access request" (Approved, 28 Feb) · INC0043210 "Password reset — in-person walk-in" (Closed, 22 Feb)</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e8a317">Timeline reconstructed:</strong> Password reset via help-desk walk-in (22 Feb) → K8s privilege request approved (28 Feb) → after-hours login (04 Mar) → PowerShell Mimikatz + EDR offline (05 Mar) → impossible travel + MFA brute-force + Frankfurt login (06 Mar). The open Azure portal ticket (INC0043891) may indicate session conflicts between the legitimate user and an unauthorized party.</p>
+
+      <div class="chat-summary"><strong>📋 User 360° Profile — jsmith_admin | 🔴 Risk Level: HIGH</strong><br><br><strong>Identity (Zoho Directory):</strong> John Smith · Senior DevOps Engineer · Cloud Infrastructure · emp#10234 · Active since Mar 2021 · Coimbatore · Reports to: Priya Raghavan. AD Groups: Domain Admins, Azure-Prod-Contributors, VPN-FullTunnel, K8s-Prod-Cluster-Admins (granted 28 Feb).<br><strong>Okta SSO &amp; MFA:</strong> Status ACTIVE · MFA enrolled: Microsoft Authenticator (primary) + YubiKey 5 (backup). Last password change: 22 Feb 2026 (in-person help desk visit). SSO access to 7 apps: AWS, Azure, GitHub, Jira, ServiceNow, Slack, Salesforce. Device WKSN-4471 registered as Managed &amp; Trusted.<br><strong>Endpoint (CrowdStrike):</strong> WKSN-4471 — Windows 11 Pro · OS patched (Feb 2026) · <strong style="color:#e06c75">EDR: OFFLINE since 05 Mar 23:01</strong> · Sensor one version behind · 1 open detection: PowerShell Mimikatz pattern (T1003).<br><strong>Authentication (48h):</strong> After-hours login 04 Mar 03:12 IST. 14 MFA failures in 5 min from Frankfurt (09:08 IST). Successful Frankfurt login at 09:14 IST — 27 min after last Coimbatore login. <strong style="color:#e06c75">Impossible travel confirmed.</strong> 2 concurrent VPN sessions (Coimbatore + Frankfurt). 3 active SSO sessions (AWS, Azure, GitHub).<br><strong>Alerts (4):</strong> 🔴 Impossible travel (Critical) · 🟠 14 failed MFA (High) · 🟠 Unusual PowerShell (High) · 🟡 After-hours login (Medium) — 3 of 4 open.<br><strong>Tickets (ServiceNow):</strong> INC0043891 "Azure portal access" (Open) · REQ0078234 "K8s prod access" (Approved) · INC0043210 "Password reset" (Closed, 22 Feb).<br><strong>Cross-Tool Correlations:</strong> Password reset (22 Feb) preceded all anomalous activity. EDR offline + Mimikatz detection while device still shows "Managed" in Okta trust. Open Azure ticket may indicate session conflict between legitimate user and attacker. MFA fatigue pattern followed by successful login warrants bypass investigation.<br><br></div>
+    </div></div>
+  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copilot-ui-input-bar">
+      <input type="text" placeholder="Ask Copilot or type / for commands" disabled>
+      <div class="cp-send">▶</div>
+    </div>
+  </div>
+</div>
+
+<!-- UC1 — INTERACTIVE COPILOT CONVERSATION -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ USE CASE 2: EXECUTIVE INCIDENT SUMMARY ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- UC2 — TITLE -->
+<div class="slide section-slide" data-section="UC2: Incident Summary">
+  <span class="uc-badge uc2">USE CASE 2</span>
+  <h1 class="center"><span class="white">Executive Incident Summary</span><br><span class="yellow">Last 7 Days — Board-Ready in One Conversation</span></h1>
+  <p class="value-line">Incidents · Alerts · Trends · MTTR — one prompt, one comprehensive executive report</p>
+  <div class="tags" style="margin-top:18px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+  </div>
+</div>
+
+<!-- UC2 — VISUAL STORY DIAGRAM -->
+<div class="slide left-align" data-section="UC2: Incident Summary">
+  <h3>The Scenario &amp; MCP Orchestration</h3>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node system">💬 CISO Prompt<br><span style="font-size:10px">"Incident summary for the week"</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node mcp">🤖 MCP Copilot<br><span style="font-size:10px">Orchestrates SIEM + EDR</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result">📊 Executive Report<br><span style="font-size:10px">Minutes, not hours</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Copilot queries incident and detection data across platforms</span> ↓</div>
+  <div class="flow" style="margin-bottom:18px">
+    <div class="flow-node log360">📋 Log360 Incidents<br><span style="font-size:10px">Severity · Categories · MTTR</span></div>
+    <span class="flow-arrow">+</span>
+    <div class="flow-node vendor">⚠️ Active Alerts<br><span style="font-size:10px">Critical + High severity</span></div>
+    <span class="flow-arrow">+</span>
+    <div class="flow-node log360">📈 Weekly Trends<br><span style="font-size:10px">Week-over-week comparison</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Results consolidated into a single executive snapshot</span> ↓</div>
+  <div class="flow">
+    <div class="flow-node log360">🌐 Log360 Cloud<br><span style="font-size:10px">Incidents · Alerts · Reports</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node mcp">🤖 MCP Copilot<br><span style="font-size:10px">Cross-platform orchestration</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node vendor">🔍 CrowdStrike<br><span style="font-size:10px">Detections · Incidents</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result">✅ Executive Summary<br><span style="font-size:10px">Board presentation ready</span></div>
+  </div>
+  <h3>What Used to Happen?</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>Monday 7:30 AM:</strong> CISO Venkat has a board meeting at 11 AM. Needs a complete incident summary for the past week — severity breakdown, trending categories, MTTR, and key highlights.<div class="tl-time">Previously required hours of manual report compilation across multiple tools</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>Old Way — 3+ hours:</strong> Junior analyst logs into SIEM → exports incident list → switches to EDR console for detection summary → checks ticketing system for resolution stats → manually compiles everything into a slide deck.</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-content"><strong>MCP Way — 3 minutes:</strong> Venkat types one prompt: "Give me an executive summary of incidents from the last week." The MCP copilot queries all systems, correlates results, and returns a board-ready summary.</div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-content"><strong>Result:</strong> Venkat walks into the board meeting confident and prepared. No analyst scrambling, no tool hopping, no stale data.</div></div>
+  </div>
+</div>
+
+<!-- UC2 — INVESTIGATION RESULT (with embedded tool calls dropdown) -->
+<div class="slide left-align" data-section="UC2: Incident Summary">
+  <div class="copilot-ui">
+    <div class="copilot-ui-header">
+      <span class="cp-sparkle">✦</span>
+      <span class="cp-title">Copilot</span>
+      <span class="cp-mode"><span class="cp-dot"></span> Agent</span>
+    </div>
+    <div class="copilot-ui-body">
+      <div class="copilot-ui-msg u-msg">
+        <div class="copilot-ui-avatar">👤</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">CISO</div>
+          <p>Give me an executive summary of all security incidents from the last 7 days — severity breakdown, top categories, trends vs last week, and key incidents that need my attention.</p>
+        </div>
+      </div>
+      <div class="copilot-ui-msg b-msg">
+        <div class="copilot-ui-avatar">✦</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">Copilot</div>
+          <div class="copilot-ui-response">
+            <p class="cp-intro">I've compiled incident data from Log360 SIEM and CrowdStrike EDR for the past 7 days. Here's your executive incident summary:</p>
+            <!-- <div class="copilot-ui-tools-used">
+              <span class="cp-tool-tag t-log360">LOG360 SIEM</span>
+              <span class="cp-tool-tag t-crowdstrike">CROWDSTRIKE EDR</span>
+            </div> -->
+            <h5>🔍 Incident Overview (06–12 March 2026)</h5>
+            <ul class="fl">
+              <li><strong>Total Incidents:</strong> 47 incidents — 3 Critical, 8 High, 19 Medium, 17 Low</li>
+              <li><strong>Week-over-Week Trend:</strong> 52% increase from prior week (31 incidents) — critical incidents up from 2 → 3, high up from 5 → 8</li>
+              <li><strong>Top Categories:</strong> Authentication anomalies (14), Malware detections (9), Policy violations (8), Unauthorized data access (7), Network anomalies (5), Other (4)</li>
+              <li><strong>Mean Time to Resolve:</strong> 4.2 hours overall — Critical: 1.8 hrs, High: 3.4 hrs, Medium: 5.1 hrs, Low: 6.8 hrs</li>
+              <li><strong>Open/Unresolved:</strong> 12 incidents still open (2 Critical, 4 High, 6 Medium)</li>
+            </ul>
+            <h5>🔴 Critical Incidents Requiring Attention</h5>
+            <ul class="fl">
+              <li><strong>Ransomware C2 Callback (SRV-WEB-03):</strong> Outbound HTTPS to known malicious IP with 60s beacon interval — host isolated, investigation ongoing</li>
+              <li><strong>VPN Brute-Force Campaign:</strong> 3,400+ attempts from 12 unique IPs — 2 accounts temporarily locked, 3 IPs account for 78% of failures</li>
+              <li><strong>Anomalous Data Transfer (DB-PROD-01):</strong> 2.3 GB outbound to external IP during 02:00–04:00 IST — no scheduled backup to that destination</li>
+            </ul>
+            <h5>📊 EDR Correlation (CrowdStrike)</h5>
+            <ul class="fl">
+              <li><strong>EDR Detections:</strong> 23 across 15 hosts — 5 Critical, 8 High, 10 Medium | 3 auto-blocked</li>
+              <li><strong>SIEM-EDR Overlap:</strong> 8 of 47 SIEM incidents have corresponding CrowdStrike detections</li>
+              <li><strong>Top MITRE Techniques:</strong> T1110 (Brute Force), T1059.001 (PowerShell), T1078 (Valid Accounts)</li>
+            </ul>
+            <h5>🛡️ Recommended Actions</h5>
+            <ul class="al">
+              <li>Prioritize 2 open critical incidents — ransomware C2 and anomalous data transfer need containment verification</li>
+              <li>Investigate rising authentication anomaly trend (14 incidents) — possible coordinated credential campaign</li>
+              <li>Implement IP-based rate limiting on VPN gateway</li>
+              <li>Review DLP policies for DB-PROD-01 — anomalous data transfer may indicate insider threat or compromised service account</li>
+              <li>Resolve 4 open high-severity incidents before end of week</li>
+              <li>Schedule weekly automated MCP incident summary for recurring board reporting</li>
+            </ul>
+            <!-- <div class="copilot-ui-callout">
+              <strong>Cross-Tool Correlations:</strong> Log360 incident data cross-referenced with CrowdStrike EDR detections · 8 of 47 incidents have matching EDR detections · Rising authentication anomaly trend correlates with VPN brute-force timeline · 3 threats auto-blocked by EDR prevention policies
+            </div> -->
+            <div class="investigation-tools-dropdown">
+              <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
+                <span class="itd-icon">▶</span>
+                <span class="itd-label">View Full Investigation — 4 Phases, 6 Tool Calls</span>
+                <span class="itd-badge">Click to expand</span>
+              </div>
+              <div class="itd-content">
+                <div class="copilot-chat">
+    <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role">👤 CISO</div>Give me an executive summary of all security incidents from the last 7 days for the board meeting. Cover severity breakdown, trends, top categories, and key incidents.</div></div>
+    <div class="chat-msg copilot"><div class="chat-bubble">
+      <div class="chat-role">Copilot</div>
+      <p>On it. I'll pull incident data from your SIEM and EDR platforms and compile a board-ready executive summary.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 1 — Incident Summary (Current Week)</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> list_incidents(time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Retrieve all incidents from the past 7 days with severity breakdown</div><div class="tool-res">✓ 47 incidents: 3 Critical · 8 High · 19 Medium · 17 Low | Avg MTTR: 4.2 hours | Top categories: Authentication anomalies (14), Malware (9), Policy violations (8), Data access (7), Network (5), Other (4)</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(severity: "critical,trouble", status: "open", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Pull all open critical and high-severity alerts</div><div class="tool-res">✓ 5 open alerts: Ransomware C2 on SRV-WEB-03 (Critical) · Brute-Force on VPN Gateway (Critical) · Anomalous Transfer from DB-PROD-01 (Critical) · MFA Brute-Force (High) · Unauthorized admin logon (High)</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 2 — Week-over-Week Comparison</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> list_incidents(time: -14d, end_time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Retrieve prior week's incidents for trend analysis</div><div class="tool-res">✓ Prior week: 31 incidents (2 Critical · 5 High · 13 Medium · 11 Low) — <strong>52% overall increase, critical up 50%</strong></div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 3 — EDR Detection Correlation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "created_timestamp:>'-7d'", sort: "severity.desc", limit: 50) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Cross-reference with CrowdStrike EDR detections</div><div class="tool-res">✓ 23 detections across 15 hosts: 5 Critical · 8 High · 10 Medium | 3 auto-blocked | Top: T1110, T1059.001, T1078</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_incidents(filter: "start:>'-7d'", sort: "start.desc") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Pull CrowdStrike incidents for correlation</div><div class="tool-res">✓ 4 incidents: VPN Brute-Force (85) · Suspicious PowerShell (90) · Credential Abuse (75) · Malware Blocked (60)</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 4 — Key Incident Deep Dive</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(query: 'DEVICE_NAME IN ("SRV-WEB-03","DB-PROD-01")', severity: "critical", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Get details on top critical incidents</div><div class="tool-res">✓ SRV-WEB-03: C2 callback, beacon ~60s, isolated. DB-PROD-01: 2.3 GB outbound to 185.x.x.x during 02:00–04:00 IST</div></div></div>
+      </div>
+      <div class="chat-summary"><strong>📊 Executive Incident Summary — 06–12 March 2026</strong><br><br><strong>Volume:</strong> 47 incidents (3 Critical · 8 High · 19 Medium · 17 Low) — 52% increase over prior week.<br><strong>Top Categories:</strong> Auth anomalies (14), Malware (9), Policy violations (8), Data access (7), Network (5).<br><strong>MTTR:</strong> 4.2 hrs avg. 12 still open (2 Critical, 4 High, 6 Medium).<br><strong>Critical:</strong> (1) C2 on SRV-WEB-03, (2) VPN brute-force, (3) 2.3 GB transfer from DB-PROD-01.<br><strong>EDR:</strong> 23 detections, 3 blocked, 8 with SIEM matches.<br><br><strong class="accent">MCP way:</strong> One prompt → board-ready in minutes.</div>
+    </div></div>
+  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copilot-ui-input-bar">
+      <input type="text" placeholder="Ask Copilot or type / for commands" disabled>
+      <div class="cp-send">▶</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ USE CASE 3: PASSWORD SPRAY → PRIVILEGE ESCALATION ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- UC3 — TITLE -->
+<div class="slide section-slide" data-section="UC3: Password Spray">
+  <span class="uc-badge uc3">USE CASE 3</span>
+  <h1 class="center"><span class="white">Password Spray Attack</span><br><span class="accent">→ Privilege Escalation</span></h1>
+  <p class="value-line">Cross-vendor orchestration · On-premises AD attack traced from spray to Domain Admin in one conversation</p>
+  <div class="tags" style="margin-top:18px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+  </div>
+</div>
+
+<!-- UC3 — VISUAL STORY DIAGRAM -->
+<div class="slide left-align" data-section="UC3: Password Spray">
+  <h3>Attack Flow &amp; MCP Investigation</h3>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node attacker"> Kali Linux<br><span style="font-size:10px">192.168.1.100</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Kerbrute Spray<br><span style="font-size:10px">11 accounts · DC01:88</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node system"> DC01<br><span style="font-size:10px">22 events (4625+4771)</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> finance1 TGT<br><span style="font-size:10px">Compromised</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Attacker pivots with compromised credentials — RDP lateral movement</span> ↓</div>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node attacker"> RDP Session<br><span style="font-size:10px">finance1 → WS01</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Recon<br><span style="font-size:10px">whoami · net group</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> runas itadmin<br><span style="font-size:10px">Domain Admin</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker" style="background:#2a1520;border-color:#e06c75;color:#e06c75"> Privilege Escalation<br><span style="font-size:10px">SeDebugPrivilege</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">SOC analyst triggers MCP investigation</span> ↓</div>
+  <div class="flow">
+    <div class="flow-node log360"> Log360 Cloud<br><span style="font-size:10px">Alerts · Search · Events</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node mcp"> MCP Copilot<br><span style="font-size:10px">Cross-vendor orchestration</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node vendor"> CrowdStrike<br><span style="font-size:10px">Detections · Incidents</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result"> Full Kill Chain<br><span style="font-size:10px">Correlated in minutes</span></div>
+  </div>
+  <h3>What Happened?</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>09:15–09:18 UTC:</strong> Password spray from 192.168.1.100 against DC01 — 11 accounts targeted via Kerberos pre-authentication (Event 4771 failure code 0x18 + Event 4625)<div class="tl-time">Kerbrute-style spray against port 88 · Logon Type 3 (Network)</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>09:17:45 UTC:</strong> <code>finance1</code> TGT granted (Event 4768) from attacker IP — password spray succeeded for this account<div class="tl-time">Result Code 0x0 (Success) · Encryption Type 0x12</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>09:22:01 UTC:</strong> RDP session (Event 4624 Type 10) established from 192.168.1.100 to WS01 as <code>finance1</code><div class="tl-time">~4 minute gap between credential compromise and lateral movement</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>09:23–09:28 UTC:</strong> Discovery activity on WS01 — <code>whoami</code>, <code>net user</code>, <code>net group "Domain Admins"</code>, <code>ipconfig /all</code>, PowerShell launched<div class="tl-time">6 process creation events (Event 4688) · Classic post-exploitation recon</div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>09:30:01 UTC:</strong> Privilege escalation — <code>finance1</code> uses <code>runas.exe</code> with explicit credentials for <code>itadmin</code> (Domain Admin)<div class="tl-time">Event 4648 (explicit credentials) → Event 4624 Type 2 → Event 4672 (SeDebugPrivilege, SeBackupPrivilege)</div></div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-content"><strong>Full chain:</strong> Password spray → credential compromise → RDP lateral movement → discovery → Domain Admin escalation. <strong>Under 15 minutes from spray to Domain Admin.</strong></div></div>
+  </div>
+</div>
+
+
+<!-- UC3 — INVESTIGATION RESULT -->
+<div class="slide left-align" data-section="UC3: Password Spray">
+  <div class="copilot-ui">
+    <div class="copilot-ui-header">
+      <span class="cp-sparkle">✦</span>
+      <span class="cp-title">Copilot</span>
+      <span class="cp-mode"><span class="cp-dot"></span> Agent</span>
+    </div>
+    <div class="copilot-ui-body">
+      <div class="copilot-ui-msg u-msg">
+        <div class="copilot-ui-avatar">👤</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">SOC Analyst</div>
+          <p>Investigate the password spray attack detected against DC01 in the corp.local domain.</p>
+        </div>
+      </div>
+      <div class="copilot-ui-msg b-msg">
+        <div class="copilot-ui-avatar">✦</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">Copilot</div>
+          <div class="copilot-ui-response">
+            <p class="cp-intro">I’ve correlated authentication events, lateral movement, and EDR detections across Log360 and CrowdStrike. Here’s the complete attack chain analysis:</p>
+            <h5>🔍 Key Findings</h5>
+            <ul class="fl">
+            <li><strong>Attack Pattern:</strong> Kerbrute-style password spray from 192.168.1.100 — 11 accounts targeted in 3-minute window (09:15–09:18 UTC)</li>
+            <li><strong>Compromised Account:</strong> finance1 — TGT granted at 09:17:45 from attacker IP (Event 4768, Result Code 0x0)</li>
+            <li><strong>Lateral Movement:</strong> RDP session from attacker IP to WS01 at 09:22:01 — ~4 minutes after credential compromise</li>
+            <li><strong>Discovery Activity:</strong> 6 recon commands on WS01 — whoami, net user, net group “Domain Admins”, ipconfig, cmd, PowerShell</li>
+            <li><strong>Privilege Escalation:</strong> finance1 used runas.exe with itadmin (Domain Admin) credentials at 09:30:01 — SeDebugPrivilege, SeBackupPrivilege assigned</li>
+            <li><strong>EDR Correlation:</strong> CrowdStrike confirmed 3 detections and <strong style="color:#e06c75">blocked</strong> the Domain Admin credential abuse on WS01</li>
+            <li><strong>Total Kill Chain Time:</strong> Under 15 minutes from initial spray to Domain Admin escalation</li>
+            </ul>
+            <h5>🛡️ Recommended Actions</h5>
+            <ul class="al">
+            <li>Immediately reset passwords for finance1 and itadmin — invalidate all Kerberos tickets (krbtgt double-reset if lateral movement extended)</li>
+            <li>Block attacker IP 192.168.1.100 at firewall and add to threat intelligence blocklist</li>
+            <li>Disable RDP access from non-admin networks — restrict to jump servers only</li>
+            <li>Enforce account lockout policy: lock after 5 failed Kerberos pre-auth attempts within 10 minutes</li>
+            <li>Audit all 11 targeted accounts for password strength — enforce minimum 16-character passwords for privileged accounts</li>
+            <li>Deploy LAPS (Local Administrator Password Solution) to prevent credential reuse across workstations</li>
+            <li>Consider creating a detection rule for runas.exe with explicit credentials targeting Domain Admin accounts (suggested rule in investigation details below)</li>
+            </ul>
+            <div class="investigation-tools-dropdown">
+              <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
+                <span class="itd-icon">▶</span>
+                <span class="itd-label">View Full Investigation — 6 Phases, 12 Tool Calls</span>
+                <span class="itd-badge">Click to expand</span>
+              </div>
+              <div class="itd-content">
+                <div class="copilot-chat">
+    <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role"> SOC Analyst</div>Investigate the password spray attack detected against DC01 in the corp.local domain.</div></div>
+    <div class="chat-msg copilot"><div class="chat-bubble">
+      <div class="chat-role">Copilot</div>
+      <p>I'll investigate this password spray alert. Let me triage the alerts on DC01 and trace the attack path.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 1 — Alert Triage</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(query: 'DEVICE_NAME = "DC01"', time: 09:00–10:00, severity: critical,trouble,attention) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Pull all alerts on DC01 during the attack window</div><div class="tool-res">✓ 2 alerts: CRITICAL "Multiple failed logon attempts" (Event 4625, 22 events, 11 accounts) + TROUBLE "Kerberos pre-auth failure" (Event 4771, 11 events, Failure Code 0x18)</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4625" OR EVENT_ID="4771" AND SOURCE_IP="192.168.1.100"', time: 09:00–10:00) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Search for all failed logon and Kerberos pre-auth events from attacker IP</div><div class="tool-res">✓ 22 events: 11 accounts × 2 events each (4625 + 4771) from 192.168.1.100 between 09:15–09:18 UTC. Sub-status 0xc000006a. Targets: svc-backup, helpdesk1, admin1, jsmith, finance1, finance2, marketing1, itadmin, hr-admin, dev-ops1, consultant1</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px">Classic password spray pattern — 11 accounts received Event 4625 + 4771 from source IP 192.168.1.100 in a 3-minute window. Failure code 0x18 and sub-status 0xc000006a confirm wrong password attempts. Consistent with Kerbrute-style spray against Kerberos port 88.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 2 — Compromise Confirmation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4768" AND USERNAME="finance1"', time: 09:15–09:30) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check for TGT grants to any sprayed account (successful compromise indicator)</div><div class="tool-res">✓ TGT granted to finance1 at 09:17:45 UTC — Result Code 0x0 (Success), from ::ffff:192.168.1.100, Encryption Type 0x12</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4624" AND USERNAME="finance1"', time: 09:15–09:30) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Trace successful logons after TGT grant</div><div class="tool-res">✓ 2 logons: Type 3 (Network) on DC01 at 09:17:46 via Kerberos + <strong>Type 10 (RemoteInteractive) on WS01 at 09:22:01</strong> — RDP from 192.168.1.100</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">Confirmed:</strong> finance1 obtained a TGT at 09:17:45 from attacker IP. Two successful logons followed — Network auth on DC01 and RDP session on WS01. Attacker waited ~4 minutes before initiating RDP.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 3 — RDP Lateral Movement</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4624" AND DEVICE_NAME="WS01" AND USERNAME="finance1"', time: 09:20–09:35) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Confirm RDP session details on target workstation</div><div class="tool-res">✓ Type 10 (RemoteInteractive) from 192.168.1.100 — Logon ID: 0x1A2B3C, SID: S-1-5-21-...-1108</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="21" OR EVENT_ID="25" OR EVENT_ID="1149" AND DEVICE_NAME="WS01"', time: 09:20–09:35) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Corroborate with TerminalServices session events</div><div class="tool-res">✓ 3 events: Event 21 (Session logon succeeded), Event 25 (Session reconnection), Event 1149 (User auth succeeded) — all for finance1 from 192.168.1.100, Session ID 2</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px">RDP lateral movement confirmed — finance1 logged into WS01 via RemoteInteractive at 09:22:01 UTC. TerminalServices events corroborate the session.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 4 — Recon Detection</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4688" AND DEVICE_NAME="WS01"', time: 09:22–09:35) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check for process creation (discovery commands) on WS01</div><div class="tool-res">✓ 6 processes under finance1 session: whoami (09:23) → net user finance1 (09:24) → <strong>net group "Domain Admins" /domain</strong> (09:25) → ipconfig /all (09:26) → cmd.exe (09:27) → powershell.exe (09:28)</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px">Classic reconnaissance — attacker mapping domain structure and identifying privileged accounts. The <code>net group "Domain Admins"</code> query reveals the attacker is targeting privilege escalation.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 5 — Privilege Escalation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(query: 'DEVICE_NAME="WS01"', time: 09:28–09:40, severity: critical,trouble,attention) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check for privilege escalation alerts on WS01</div><div class="tool-res"> 1 CRITICAL alert: "Privilege Escalation - Explicit Credentials" — Event 4648, finance1 used explicit credentials for itadmin via runas.exe</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4648" AND DEVICE_NAME="WS01"', time: 09:28–09:40) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Get explicit credential usage details</div><div class="tool-res">✓ finance1 → Target: itadmin (CORP domain) via C:\Windows\System32\runas.exe — Logon ID: 0x1A2B3C</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: '(EVENT_ID="4672" OR EVENT_ID="4624") AND USERNAME="itadmin"', time: 09:28–09:40) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Verify itadmin logon and privilege assignment</div><div class="tool-res">✓ Event 4624 Type 2 (Interactive) for itadmin on WS01 + Event 4672: <strong>SeDebugPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeTakeOwnershipPrivilege</strong> + 6 more special privileges assigned</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> synchronous_search(query: 'EVENT_ID="4776" AND USERNAME="itadmin"', time: 09:28–09:40) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Verify NTLM credential validation for Domain Admin</div><div class="tool-res">✓ NTLM validation for itadmin on DC01 — Source Workstation: WS01, Error Code: 0x0 (Success). Domain Admin credentials confirmed valid.</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">Critical:</strong> Privilege escalation confirmed. finance1 used runas.exe with itadmin (Domain Admin) credentials at 09:30:01 UTC. SeDebugPrivilege + SeBackupPrivilege assigned. Attacker escalated from standard user to Domain Admin.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 6 — CrowdStrike Correlation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "hostname:'DC01'+hostname:'WS01'", sort: "last_behavior|desc", limit: 15) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Cross-correlate with CrowdStrike EDR detections on both hosts</div><div class="tool-res">✓ 3 detections: "Password Spray Attempt" (High, T1110.003, DC01) + "Suspicious RDP Connection" (Medium, T1021.001, WS01) + <strong>"Suspicious Use of Domain Admin Credentials" (Critical, T1078.002, WS01 — blocked)</strong></div></div></div>
+        <!-- <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_incidents(filter: "hostname:'DC01'+hostname:'WS01'", sort: "start.desc", limit: 10) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check if CrowdStrike correlated detections into an incident</div><div class="tool-res">✓ 1 incident: "Password Spray leading to Privilege Escalation on corp.local" — Fine Score: 90, Techniques: T1110.003 + T1021.001 + T1078.002, Users: finance1 + itadmin, Hosts: DC01 + WS01</div></div></div> -->
+      </div>
+      <!-- <p style="color:#bbb;margin:6px 0;font-size:12px">CrowdStrike Falcon corroborates the full attack chain with 3 detections and 1 incident (fine_score: 90). The critical detection confirmed <code>runas /user:CORP\itadmin cmd</code> was blocked. No Okta activity found — attack was purely on-premises Active Directory.</p> -->
+      <div class="chat-summary"><strong>📋 SOC Investigation Report — Password Spray &amp; Privilege Escalation</strong><br><br><strong>Attack Pattern:</strong> Password spray from 192.168.1.100 targeting 11 accounts on DC01 between 09:15–09:18 UTC (3-minute window). 22 events: 11 × Event 4625 + 11 × Event 4771. Failure code 0x18 / sub-status 0xc000006a — consistent with Kerbrute-style spray against Kerberos port 88.<br><strong>Compromised Account:</strong> finance1 — TGT granted at 09:17:45 UTC (Event 4768, Result Code 0x0). Two successful logons followed: Type 3 (Network) on DC01 + Type 10 (RemoteInteractive/RDP) on WS01 at 09:22:01.<br><strong>Lateral Movement:</strong> RDP session from 192.168.1.100 → WS01 confirmed via Event 4624 Type 10, TerminalServices Events 21/25/1149. Session ID 2, Logon ID 0x1A2B3C.<br><strong>Reconnaissance:</strong> 6 processes executed under finance1 session on WS01: whoami → net user finance1 → net group "Domain Admins" /domain → ipconfig /all → cmd.exe → powershell.exe.<br><strong>Privilege Escalation:</strong> finance1 used runas.exe with itadmin (Domain Admin) credentials at 09:30:01 UTC (Event 4648). SeDebugPrivilege + SeBackupPrivilege + SeRestorePrivilege + SeTakeOwnershipPrivilege assigned (Event 4672). NTLM validation successful on DC01 (Event 4776).<br><strong>EDR Correlation:</strong> CrowdStrike Falcon — 3 detections: "Password Spray Attempt" (High, DC01) + "Suspicious RDP Connection" (Medium, WS01) + "Suspicious Use of Domain Admin Credentials" (Critical, WS01 — <strong style="color:#e06c75">blocked</strong>)<br><br></div>
+      <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role"> SOC Analyst</div>Can you suggest a detection rule for this password spray pattern? I want to catch this early next time.</div></div>
+      <div class="chat-msg copilot"><div class="chat-bubble">
+        <div class="chat-role">Copilot</div>
+        <p>Based on the attack patterns identified in this investigation, here's a detection rule I'd recommend creating in Log360:</p>
+        <div style="margin:8px 0;padding:12px 14px;background:#0e0e1a;border:1px solid #252540;border-radius:8px;font-size:12px;line-height:1.65">
+          <p style="color:#e8a317;font-weight:700;margin:0 0 8px;font-size:13px">📋 Suggested Detection Rule: "Kerberos Password Spray → Privilege Escalation"</p>
+          <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Severity:</strong> Critical</p>
+          <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Trigger Condition:</strong> ≥10 failed Kerberos pre-auth attempts (Event 4625 + 4771) with failure code 0xc000006a from a single source IP within 5 minutes</p>
+          <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Escalation Correlation:</strong> Followed by explicit credential use (Event 4648) or special privilege assignment (Event 4672) targeting Domain Admin accounts within 15 minutes</p>
+          <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Recommended Actions:</strong> Auto-create incident + email SOC team</p>
+          <p style="color:#bbb;margin:0"><strong style="color:#9cdcfe">MITRE Mapping:</strong> T1110.003 (Password Spraying) → T1078.002 (Domain Accounts)</p>
+        </div>
+      </div></div>
+    </div></div>
+  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copilot-ui-input-bar">
+      <input type="text" placeholder="Ask Copilot or type / for commands" disabled>
+      <div class="cp-send">▶</div>
+    </div>
+  </div>
+</div>
+
+<!-- UC3 — INTERACTIVE COPILOT CONVERSATION -->
+
+
+<!-- UC3 — REAL INVESTIGATION SCREENSHOTS -->
+<div class="slide left-align" data-section="UC3: Password Spray">
+  <h3> Real Investigation Screenshots</h3>
+  <p class="desc" style="margin-bottom:14px">Actual GitHub Copilot chat screenshots from the password spray investigation using Log360 and CrowdStrike MCP servers</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:1120px">
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/Screenshot%20from%202026-03-05%2001-56-16.png" alt="UC5 Investigation Screenshot 1" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/Screenshot%20from%202026-03-05%2001-56-44.png" alt="UC5 Investigation Screenshot 2" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/Screenshot%20from%202026-03-05%2001-57-16.png" alt="UC5 Investigation Screenshot 3" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/Screenshot%20from%202026-03-05%2001-57-33.png" alt="UC5 Investigation Screenshot 4" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+  </div>
+  <p class="tiny center" style="margin-top:10px">Screenshots from actual MCP-powered investigation in VS Code with GitHub Copilot</p>
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-backdrop" id="lightboxModal" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+  <img id="lightboxImg" src="" alt="Expanded screenshot">
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ USE CASE 4: RANSOMWARE KILL CHAIN ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- UC4 — TITLE -->
+<div class="slide section-slide" data-section="UC4: Ransomware">
+  <span class="uc-badge uc4">USE CASE 4</span>
+  <h1 class="center"><span class="white">From Phishing Email to Cross-Vendor Investigation</span><br><span class="red">In One Conversation</span></h1>
+  <p class="value-line">Cross-vendor orchestration · Accelerated kill chain correlation in one conversation</p>
+  <div class="tags" style="margin-top:18px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+    <span class="tag okta">OKTA</span>
+    <span class="tag m365">M365 / DEFENDER</span>
+  </div>
+</div>
+
+<!-- UC4 — VISUAL STORY DIAGRAM -->
+<div class="slide left-align" data-section="UC4: Ransomware">
+  <h3>Attack Flow & MCP Investigation</h3>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node attacker"> Phishing<br><span style="font-size:10px">acme-inv0ice.com</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Macro .docm<br><span style="font-size:10px">Invoice_Final</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node system"> Maria's PC<br><span style="font-size:10px">WIN-FIN-2201</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> PowerShell<br><span style="font-size:10px">Download payload</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node attacker"> Ransomware<br><span style="font-size:10px">Payload deployed</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Credential access &amp; internal discovery — lateral movement begins</span> ↓</div>
+  <div class="flow" style="margin-bottom:18px">
+    <div class="flow-node system"> File Server 1<br><span style="font-size:10px">RDP lateral</span></div>
+    <span class="flow-arrow">←</span>
+    <div class="flow-node system"> Maria's PC<br><span style="font-size:10px">Pass-the-hash</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node system"> File Server 2<br><span style="font-size:10px">SMB lateral</span></div>
+    <span class="flow-arrow" style="color:#e06c75">✕→</span>
+    <div class="flow-node system" style="border-color:#4ec9b066"> Domain Controller<br><span style="font-size:10px;color:#4ec9b0">12 attempts FAILED</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">SOC analyst triggers MCP investigation</span> ↓</div>
+  <div class="flow">
+    <div class="flow-node log360"> Log360 Cloud<br><span style="font-size:10px">NLQ · UEBA · IWB · Alerts</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node mcp"> MCP Copilot<br><span style="font-size:10px">Cross-vendor orchestration</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node vendor"> CrowdStrike · Okta · M365<br><span style="font-size:10px">Endpoint + Identity + Email</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result"> Kill Chain Correlated<br><span style="font-size:10px">Accelerated investigation</span></div>
+  </div>
+  <h3>What Happened?</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>T+0 min:</strong> Maria Rossi (Finance) receives phishing email from <code>billing@acme-inv0ice.com</code> — user opens the attachment, which triggers macro execution<div class="tl-time">Domain flagged in external threat intelligence </div></div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>T+1 min:</strong> Macro-triggered PowerShell downloads ransomware payload from suspicious external domain<div class="tl-time">Outlook → WINWORD → powershell.exe → ransomware binary </div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>T+5 min:</strong> Ransomware connects to C2 server, beacons every 60 seconds over HTTPS<div class="tl-time">C2 server identified as known threat infrastructure</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>T+8 min:</strong> Credential access — credential harvesting observed on Maria's workstation<div class="tl-time">Credential harvesting activity detected</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>T+12 min:</strong> Internal discovery — network reconnaissance and domain enumeration activity detected<div class="tl-time">Reconnaissance and enumeration activity detected</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>T+20 min:</strong> Lateral movement — RDP to File Server 1, pass-the-hash to File Server 2, 12 failed attempts on Domain Controller</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-content"><strong>T+35 min:</strong> Outbound data exfiltration observed before encryption stage begins<div class="tl-time">Outbound data transfer to external infrastructure detected</div></div></div>
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-content"><strong>Blast radius:</strong> Related phishing activity identified across additional employees in Finance via M365 audit logs and Exchange message traces</div></div>
+  </div>
+</div>
+
+
+<!-- UC4 — INVESTIGATION RESULT -->
+<div class="slide left-align" data-section="UC4: Ransomware">
+  <div class="copilot-ui">
+    <div class="copilot-ui-header">
+      <span class="cp-sparkle">✦</span>
+      <span class="cp-title">Copilot</span>
+      <span class="cp-mode"><span class="cp-dot"></span> Agent</span>
+    </div>
+    <div class="copilot-ui-body">
+      <div class="copilot-ui-msg u-msg">
+        <div class="copilot-ui-avatar">👤</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">SOC Analyst</div>
+          <p>Investigate the suspicious PowerShell alert on WIN-FIN-2201 flagged by Log360 and CrowdStrike.</p>
+        </div>
+      </div>
+      <div class="copilot-ui-msg b-msg">
+        <div class="copilot-ui-avatar">✦</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">Copilot</div>
+          <div class="copilot-ui-response">
+            <p class="cp-intro">I’ve correlated email, endpoint, identity, and lateral movement data across 4 platforms. Here’s the full ransomware kill chain analysis:</p>
+            <!-- <div class="copilot-ui-tools-used">
+        <span class="cp-tool-tag t-log360">LOG360 SIEM</span>
+        <span class="cp-tool-tag t-crowdstrike">CROWDSTRIKE EDR</span>
+        <span class="cp-tool-tag t-okta">OKTA IAM</span>
+        <span class="cp-tool-tag t-m365">M365 DEFENDER</span>
+            </div> -->
+            <h5>🔍 Key Findings</h5>
+            <ul class="fl">
+            <li><strong>Attack Vector:</strong> Phishing email from billing@acme-inv0ice.com (typosquat domain) with macro-enabled .docm attachment delivered to 13 Finance employees</li>
+            <li><strong>Initial Access:</strong> Maria Rossi (Finance group — verified via Okta) opened attachment — macro triggered PowerShell payload and C2 beacon (confirmed malicious via VirusTotal)</li>
+            <li><strong>Credential Harvest:</strong> Credential harvesting detected on WIN-FIN-2201 — UEBA risk score escalated to CRITICAL</li>
+            <li><strong>Lateral Movement:</strong> RDP to SRV-FILE-01 (success), SMB pass-the-hash to SRV-FILE-02 (success), 12 failed RDP attempts against Domain Controller SRV-DC-01</li>
+            <li><strong>Data Exfiltration:</strong> Outbound data transfer from SRV-FILE-01 to C2 infrastructure confirmed by CrowdStrike EDR prior to encryption stage</li>
+            <li><strong>Blast Radius:</strong> 12 additional employees received the same phishing email — all in Finance department (per M365 Defender email trace)</li>
+            <li><strong>Identity Context:</strong> maria.rossi is a member of Finance and Financial-Operations groups — access to sensitive financial systems increases impact severity</li>
+            </ul>
+            <h5>🛡️ Recommended Actions</h5>
+            <ul class="al">
+            <li>Immediately isolate WIN-FIN-2201, SRV-FILE-01, and SRV-FILE-02 from the network</li>
+            <li>Revoke all active sessions and reset credentials for maria.rossi across AD, Okta, and M365</li>
+            <li>Block C2 IP and typosquat domain (acme-inv0ice.com) at firewall and DNS level</li>
+            <li>Quarantine the phishing email from all 12 remaining recipients’ mailboxes via M365 Defender</li>
+            <li>Submit ransomware binary hash (a3f2…) to threat intelligence platforms and create IOC blocklist entry</li>
+            <li>Assess data exfiltration impact — identify which files were accessed on SRV-FILE-01 and SRV-FILE-02</li>
+            <li>Review Domain Controller security — 12 failed attempts suggest attacker intended to reach DC</li>
+            <li>Conduct enterprise-wide phishing awareness refresher focused on Finance department</li>
+            </ul>
+            <!-- <div class="copilot-ui-callout">
+              <strong>Cross-Tool Correlations:</strong> CrowdStrike EDR process chain (outlook.exe → WINWORD.EXE → powershell.exe → ransomware) confirmed Log360 PowerShell alert · Okta identity resolution + group verification mapped maria.rossi as Finance group member with access to financial systems · Log360 NLQ lateral movement query corroborated with CrowdStrike exfiltration detection · M365 Defender email trace revealed full campaign scope (13 recipients)
+            </div> -->
+            <div class="investigation-tools-dropdown">
+              <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
+                <span class="itd-icon">▶</span>
+                <span class="itd-label">View Full Investigation — 7 Phases, 15 Tool Calls</span>
+                <span class="itd-badge">Click to expand</span>
+              </div>
+              <div class="itd-content">
+                <div class="copilot-chat">
+    <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role"> SOC Analyst</div>Investigate the suspicious PowerShell alert on WIN-FIN-2201 flagged by Log360 and CrowdStrike.</div></div>
+    <div class="chat-msg copilot"><div class="chat-bubble">
+      <div class="chat-role">Copilot</div>
+      <p>I see correlated alerts on WIN-FIN-2201. Let me investigate across your security stack.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 1 — Environment &amp; Readiness</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_log_sources(host: "WIN-FIN-2201") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check if host is actively reporting logs</div><div class="tool-res">✓ Host found, last_event: 1 min ago, agent active, logs flowing</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_logtypes() + get_logfields("Windows Security") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Discover available log types &amp; field mappings</div><div class="tool-res">✓ Windows Security, Sysmon, PowerShell, DNS — fields: username, src_ip, logon_type, process_name</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 2 — EDR Alert + SIEM Cross-Correlation</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "device.hostname:'WIN-FIN-2201'", sort: "severity.desc") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Search for detections on the affected host to retrieve behavior IDs</div><div class="tool-res">✓ 1 detection found | Severity: Critical | Status: new | Behavior IDs: [bid_001, bid_002] | Host: WIN-FIN-2201</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_get_behavior_details(ids: ["bid_001", "bid_002"]) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Get full behavior details including process chain from EDR</div><div class="tool-res">✓ Process chain: outlook.exe → WINWORD.EXE → powershell.exe → ransomware binary (hash: a3f2…) | Severity: Critical | Macro-triggered payload execution confirmed</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_alerts(host: "WIN-FIN-2201", time: -6h) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check if SIEM independently flagged same activity</div><div class="tool-res">✓ "Suspicious PowerShell" (45 min ago) + "New Service Installed" (30 min ago) — <strong>cross-confirms EDR finding</strong></div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 3 — Identity Resolution</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge okta">Okta</span> get_user(userId: "maria.rossi") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Resolve identity to all linked accounts (needed for cross-platform lateral movement tracing in Phase 5)</div><div class="tool-res">✓ M365: maria.rossi@acme.com | VPN: maria.rossi@acme.com | Windows: ACME\maria.rossi</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge okta">Okta</span> list_user_groups(userId: "maria.rossi") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Verify group membership to assess the sensitivity of the compromised account</div><div class="tool-res">✓ Groups: Finance, Finance-Users, Financial-Operations, VPN-Access, All-Employees — <strong>Finance group membership confirms access to sensitive financial systems and payroll data</strong></div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e8a317">High-sensitivity account confirmed:</strong> maria.rossi is a member of the Finance and Financial-Operations groups with access to financial systems. This elevates the incident priority — any data accessed on file servers likely includes financial records.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 4 — Threat Enrichment</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_ip_analysis_data(ip: C2_IP) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Enrich C2 callback IP via integrated threat intelligence</div><div class="tool-res">Malicious — flagged by VirusTotal (integrated threat intelligence). Associated with known command-and-control infrastructure.</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_domain_analysis_data(domain: "acme-inv0ice.com") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Analyze download domain</div><div class="tool-res"> HIGH RISK — typosquat of acme-invoice.com, flagged in external threat intelligence</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 5 — Lateral Movement Tracing</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "all logins from WIN-FIN-2201 by ACME\maria.rossi to other hosts, last 4 hours") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Translate natural language to Log360 search query</div><div class="tool-res">✓ Generated query: iename = "windows logon success" and username = "maria.rossi" and hostname != "WIN-FIN-2201" and logontype in ("3","10")</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'iename = "windows logon success" and username = "maria.rossi" and hostname != "WIN-FIN-2201" and logontype in ("3","10")', log_type: "Windows", time: -4h) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute generated query against Windows logs, last 4 hours</div><div class="tool-res">✓ RDP to SRV-FILE-01 (success) | SMB to SRV-FILE-02 (pass-the-hash detected) | RDP to SRV-DC-01 (12 attempts FAILED)</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_user_risk_score(user: "ACME\maria.rossi") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ UEBA behavioral risk assessment</div><div class="tool-res"> CRITICAL risk level — multiple high-severity behavioral anomalies detected across login, file access, and lateral movement patterns</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 5b — Exfiltration Tracing</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "device.hostname:'WIN-FIN-2201'+device.hostname:'SRV-FILE-01'", type: "exfiltration") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check for data exfiltration detections on compromised hosts via EDR telemetry</div><div class="tool-res">Outbound transfer to C2 IP detected from SRV-FILE-01 — data exfiltration confirmed prior to encryption stage</div></div></div>
+      </div>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 6 — Email Telemetry &amp; Blast Radius</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge m365">M365 Defender</span> search_email_messages(sender: "billing@acme-inv0ice.com", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Query M365 Defender / Exchange message traces for phishing campaign scope<br><em class="tiny">ⓘ Via M365 Defender MCP tools — supports KQL queries for advanced email threat hunting</em></div><div class="tool-res"> Same phishing email delivered to 12 other employees in Finance</div></div></div>
+      </div>
+
+      <div class="chat-summary"><strong>📋 SOC Investigation Report — Ransomware Kill Chain</strong><br><br><strong>Attack Vector:</strong> Phishing email (billing@acme-inv0ice.com) with macro-enabled attachment delivered to 13 recipients in Finance.<br><strong>Initial Access:</strong> Macro execution triggered payload drop on WIN-FIN-2201 → C2 beacon established (confirmed malicious via VirusTotal integrated threat intelligence).<br><strong>Lateral Movement:</strong> 2 hops identified via Log360 NLQ — RDP to SRV-FILE-01, then SMB to SRV-FILE-02 (pass-the-hash detected). 12 failed RDP attempts against SRV-DC-01 (Domain Controller).<br><strong>Data Exfiltration:</strong> CrowdStrike EDR confirmed outbound data transfer from SRV-FILE-01 to C2 IP prior to encryption stage.<br><strong>Identity Resolution:</strong> Okta resolved maria.rossi → Windows AD (ACME\mrossi) + M365 identity (maria.rossi@acme.com) for cross-platform tracing.<br><strong>Blast Radius:</strong> 12 additional employees received the same phishing email via M365 Defender email trace.<br><br></div>
+      <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role"> SOC Analyst</div>Create an incident in Log360 based on these findings. Mark it as critical with all the affected hosts and evidence.</div></div>
+      <div class="chat-msg copilot"><div class="chat-bubble">
+        <div class="chat-role">Copilot</div>
+        <p>I’ll create a critical incident in Log360 with all the investigation evidence attached.</p>
+        <div class="tool-calls-phase">
+          <div class="phase-label">Phase 7 — Incident Creation</div>
+          <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> create_incident(name: "Ransomware Kill Chain — Phishing to Lateral Movement via WIN-FIN-2201", severity: "critical", status: "open", description: "Phishing email from billing@acme-inv0ice.com triggered macro execution on WIN-FIN-2201. CrowdStrike EDR confirmed process chain: outlook.exe → WINWORD.EXE → powershell.exe → ransomware binary. Lateral movement to SRV-FILE-01 (RDP) and SRV-FILE-02 (pass-the-hash). Data exfiltration confirmed. 13 Finance employees targeted.", evidence: [search_results_uuid, alert_uuid_001, alert_uuid_002], notes: ["Affected hosts: WIN-FIN-2201, SRV-FILE-01, SRV-FILE-02", "Compromised user: maria.rossi (Finance group)", "C2 domain: acme-inv0ice.com (typosquat)", "Blast radius: 12 additional phishing recipients in Finance"]) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Create critical incident with investigation evidence, affected hosts, and investigation notes</div><div class="tool-res">✓ Incident created successfully:<br>• <strong>Incident ID:</strong> INC-2025-03-0847<br>• <strong>Name:</strong> Ransomware Kill Chain — Phishing to Lateral Movement via WIN-FIN-2201<br>• <strong>Severity:</strong> CRITICAL<br>• <strong>Status:</strong> Open<br>• <strong>Evidence:</strong> 3 items attached (search results + 2 alerts)<br>• <strong>Notes:</strong> 4 investigation notes added<br>• <strong>Assignee:</strong> Auto-assigned to SOC Team</div></div></div>
+        </div>
+        <p style="color:#4ec9b0;margin:8px 0;font-size:12px">✓ <strong>Incident INC-2025-03-0847 created in Log360.</strong> All investigation evidence, affected hosts, compromised identity, and blast radius details are documented. The incident is open and assigned to the SOC team for immediate response. You can track it from the Log360 Incidents dashboard.</p>
+      </div></div>
+    </div></div>
+  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copilot-ui-input-bar">
+      <input type="text" placeholder="Ask Copilot or type / for commands" disabled>
+      <div class="cp-send">▶</div>
+    </div>
+  </div>
+</div>
+
+<!-- UC4 — INTERACTIVE COPILOT CONVERSATION -->
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ USE CASE 5: PROACTIVE THREAT HUNT — BLOG INTELLIGENCE ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- UC5 — TITLE -->
+<div class="slide section-slide" data-section="UC5: Threat Hunt">
+  <span class="uc-badge uc5">USE CASE 5</span>
+  <h1 class="center"><span class="white">Proactive Threat Hunt</span><br><span class="accent">From Blog Post to Findings in One Conversation</span></h1>
+  <p class="value-line">Cross-vendor orchestration &middot; External threat intelligence &rarr; internal detection queries in minutes</p>
+  <div class="tags" style="margin-top:18px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag falcon">CROWDSTRIKE</span>
+  </div>
+</div>
+
+<!-- UC5 — VISUAL STORY DIAGRAM -->
+<div class="slide left-align" data-section="UC5: Threat Hunt">
+  <h3>Threat Hunt Flow &amp; MCP Orchestration</h3>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node system">📄 Analyst Reads Blog<br><span style="font-size:10px">Qualys: Dissecting Empire C2</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node mcp">🤖 Pastes URL to Copilot<br><span style="font-size:10px">"Check our environment"</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node vendor">🔍 Copilot Extracts TTPs<br><span style="font-size:10px">IOCs + MITRE techniques</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Copilot converts blog intelligence into detection queries across all platforms</span> ↓</div>
+  <div class="flow" style="margin-bottom:16px">
+    <div class="flow-node log360">🌐 Log360 Search<br><span style="font-size:10px">PowerShell · Process · DNS logs</span></div>
+    <span class="flow-arrow">+</span>
+    <div class="flow-node vendor">🛡️ CrowdStrike<br><span style="font-size:10px">EDR detections</span></div>
+  </div>
+  <div class="flow-connector">↓ <span class="conn-label">Results correlated and detection rule suggested</span> ↓</div>
+  <div class="flow">
+    <div class="flow-node log360">🌐 Log360 Cloud<br><span style="font-size:10px">Search · Threat Intel · Alerts</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node mcp">🤖 MCP Copilot<br><span style="font-size:10px">Cross-vendor orchestration</span></div>
+    <span class="flow-arrow">↔</span>
+    <div class="flow-node vendor">🔍 CrowdStrike<br><span style="font-size:10px">EDR detections</span></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-node result">✅ Hunt Complete<br><span style="font-size:10px">Findings + rule suggestion</span></div>
+  </div>
+  <h3>The Scenario</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-content"><strong>Morning:</strong> SOC analyst reads Qualys blog "Dissecting the Empire C2 Framework" — a post-exploitation framework used by Vice Society, Wizard Spider, Turla, and APT41. Campaigns use doc macros, bat stagers, and PowerShell agents with HTTP/S and cloud-based C2 (OneDrive, Dropbox).<div class="tl-time">Blog: Qualys — "Dissecting the Empire C2 Framework" (blog.qualys.com)</div></div></div>
+    <div class="tl-item"><div class="tl-dot yellow"></div><div class="tl-content"><strong>Analyst's Question:</strong> "Does our environment show any Empire indicators? Are hosts running encoded PowerShell stagers, bat-based launchers, MSBuild proxy execution, or beaconing to known Empire C2 infrastructure?"</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-content"><strong>MCP Approach:</strong> Analyst pastes the blog URL into the AI Copilot. The Copilot extracts TTPs (T1059.001 PowerShell, T1071.001 HTTP C2, T1132.001 Base64 Encoding, T1127.001 MSBuild, T1047 WMI), IOCs (C2 domains, stager patterns), and searches across all connected platforms.</div></div>
+    <div class="tl-item"><div class="tl-dot green"></div><div class="tl-content"><strong>Result:</strong> Copilot finds 2 hosts with suspicious encoded PowerShell stagers matching Empire patterns, DNS anomalies to a flagged domain, and suggests a detection rule — all in ~5 minutes. No manual IOC extraction or query building required.</div></div>
+  </div>
+</div>
+
+<!-- UC5 — INVESTIGATION RESULT -->
+<div class="slide left-align" data-section="UC5: Threat Hunt">
+  <div class="copilot-ui">
+    <div class="copilot-ui-header">
+      <span class="cp-sparkle">✦</span>
+      <span class="cp-title">Copilot</span>
+      <span class="cp-mode"><span class="cp-dot"></span> Agent</span>
+    </div>
+    <div class="copilot-ui-body">
+      <div class="copilot-ui-msg u-msg">
+        <div class="copilot-ui-avatar">👤</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">SOC Analyst</div>
+          <p>I just read this Qualys blog dissecting the Empire C2 framework: https://blog.qualys.com/vulnerabilities-threat-research/2022/12/12/dissecting-the-empire-c2-framework — can you check if our environment shows any Empire C2 indicators? Look for PowerShell stagers, bat-based launchers, MSBuild proxy execution, encoded commands, and C2 beaconing.</p>
+        </div>
+      </div>
+      <div class="copilot-ui-msg b-msg">
+        <div class="copilot-ui-avatar">✦</div>
+        <div class="copilot-ui-text">
+          <div class="copilot-ui-role">Copilot</div>
+          <div class="copilot-ui-response">
+            <p class="cp-intro">I've analyzed the Qualys blog on the Empire C2 framework and completed a threat hunt across your environment. The blog covers Empire's use by Vice Society, Wizard Spider, Turla, and APT41 — with campaigns using doc macros, bat stagers, and PowerShell/C# agents. Here's what I found:</p>
+            <h5>🔍 Key Findings</h5>
+            <ul class="fl">
+            <li><strong>Encoded PowerShell Stagers (2 hosts):</strong> WS-DEV-042 and WS-MKT-019 executed powershell.exe with -EncodedCommand flag in the past 7 days — base64 decodes to IEX download cradle pattern consistent with Empire PowerShell stagers (72% of Empire stagers use PowerShell agents per the blog)</li>
+            <li><strong>MSBuild Proxy Execution:</strong> WS-DEV-042 shows MSBuild.exe launching from a non-standard path at 05 Mar 14:22 UTC — matches T1127.001 (Trusted Developer Utilities Proxy Execution) documented in the blog's MITRE mapping</li>
+            <li><strong>Suspicious DNS Beaconing:</strong> WS-DEV-042 made 847 DNS queries to update.microsofthelp[.]services in 48 hours (~30s interval) — domain is 12 days old, DGA-like naming, WHOIS privacy-protected. Pattern consistent with Empire's HTTP/S C2 mechanism</li>
+            <li><strong>No Confirmed C2 Callback:</strong> DNS beaconing present but no confirmed HTTP/HTTPS C2 channel to known Empire infrastructure (blog IOCs: jobbfinderrr[.]xyz, 193.117.208.148, 3.142.141.21) — suggests early-stage compromise or custom C2 server</li>
+            <li><strong>MITRE Mapping:</strong> T1059.001 (PowerShell), T1071.001 (HTTP C2), T1132.001 (Base64 Encoding), T1127.001 (MSBuild) — 4 of 11 blog techniques matched in environment</li>
+            </ul>
+            <h5>🛡️ Recommended Actions</h5>
+            <ul class="al">
+            <li>Isolate WS-DEV-042 immediately — encoded PowerShell stager + MSBuild proxy execution + DNS beaconing indicate potential Empire compromise</li>
+            <li>Block domain update.microsofthelp[.]services and blog-referenced IOCs (jobbfinderrr[.]xyz, 193.117.208.148, 3.142.141.21) at DNS and firewall level</li>
+            <li>Deploy PowerShell Constrained Language Mode on all non-admin workstations to prevent Empire PowerShell agents</li>
+            <li>Enable PowerShell ScriptBlock logging (Event 4104) and Module logging organization-wide</li>
+            <li>Restrict MSBuild.exe execution via AppLocker — block non-developer workstations from running MSBuild</li>
+            <li>Schedule follow-up threat hunt in 48 hours to verify containment and check for Empire persistence mechanisms</li>
+            </ul>
+            <div style="margin:14px 0;padding:12px 14px;background:#0e0e1a;border:1px solid #e8a31744;border-radius:8px;font-size:12px;line-height:1.65">
+              <p style="color:#e8a317;font-weight:700;margin:0 0 8px;font-size:13px">💡 Suggested Detection Rule: "Empire C2 Stager — Encoded PowerShell + MSBuild Proxy"</p>
+              <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Severity:</strong> High</p>
+              <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Trigger Condition:</strong> powershell.exe with -EncodedCommand where base64 decodes to IEX/DownloadString pattern, OR MSBuild.exe spawned from non-standard parent process</p>
+              <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">Correlation:</strong> Alert escalates to CRITICAL if followed by DNS beaconing (>100 queries to a single newly-registered domain within 1 hour) within 24 hours from the same host</p>
+              <p style="color:#bbb;margin:0 0 4px"><strong style="color:#9cdcfe">MITRE Coverage:</strong> T1059.001 (PowerShell), T1127.001 (MSBuild), T1071.001 (HTTP C2), T1132.001 (Base64 Encoding)</p>
+              <p style="color:#bbb;margin:0"><strong style="color:#9cdcfe">Create in:</strong> Log360 → Settings → Alert Profiles → Custom Correlation Rules</p>
+            </div>
+            <div class="investigation-tools-dropdown">
+              <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
+                <span class="itd-icon">▶</span>
+                <span class="itd-label">View Full Investigation — 4 Phases, 10 Tool Calls</span>
+                <span class="itd-badge">Click to expand</span>
+              </div>
+              <div class="itd-content">
+                <div class="copilot-chat">
+    <div class="chat-msg user"><div class="chat-bubble"><div class="chat-role">👤 SOC Analyst</div>I just read this Qualys blog dissecting the Empire C2 framework: https://blog.qualys.com/vulnerabilities-threat-research/2022/12/12/dissecting-the-empire-c2-framework — can you check if our environment shows any similar activity? Look for encoded PowerShell stagers, bat-based launchers, MSBuild proxy execution, and C2 beaconing.</div></div>
+    <div class="chat-msg copilot"><div class="chat-bubble">
+      <div class="chat-role">Copilot</div>
+      <p>I'll analyze the blog post to extract the Empire C2 attack indicators, then hunt across your environment. Let me start by parsing the key TTPs and IOCs from the Qualys article.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 1 — Blog Intelligence Extraction</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge github">Web</span> fetch_url(url: "https://blog.qualys.com/vulnerabilities-threat-research/2022/12/12/dissecting-the-empire-c2-framework") <span class="tool-type custom">Custom</span><div class="tool-detail"><div class="tool-req">→ Fetch and parse the Qualys threat blog to extract Empire C2 IOCs and TTPs</div><div class="tool-res">✓ Extracted: <strong>Empire C2 Framework</strong> — post-exploitation framework with PowerShell/Python/C#/IronPython agents | Used by: Vice Society, Wizard Spider, Turla, Leviathan, APT33, APT41 | Stager breakdown: bat (39%), Sharpire/C# (26%), PowerShell agents (72%) | C2 mechanisms: HTTP/S, OneDrive, Dropbox, Malleable profiles | MITRE: T1059.001, T1071.001, T1071.003, T1102, T1132.001, T1047, T1127.001, T1059.005, T1059.006, T1218.005, T1204.002 | Campaign IOCs: jobbfinderrr[.]xyz, xvfghtyua[.]000webhostapp[.]com, 193.117.208.148, 3.142.141.21, 18.222.107.105</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px">Extracted 11 MITRE techniques, 5 C2 IOCs (domains + IPs), and stager patterns from the blog. Empire primarily uses PowerShell agents (72%) with bat stagers (39%) being the most common delivery. Now searching across all connected platforms for matching indicators.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 2 — PowerShell &amp; MSBuild Stager Hunt</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "PowerShell executions with -EncodedCommand or -enc flag in the last 7 days across all Windows hosts") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Translate hunt query for encoded PowerShell stagers (T1059.001) — blog notes 72% of Empire stagers provision PowerShell agents</div><div class="tool-res">✓ Generated query: EVENT_ID = "4688" AND processname = "powershell.exe" AND commandline CONTAINS "-enc"</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENT_ID = "4688" AND processname = "powershell.exe" AND commandline CONTAINS "-enc"', log_type: "Windows", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute hunt query against Windows logs, last 7 days</div><div class="tool-res">✓ 7 events on 2 hosts: WS-DEV-042 (5 events, 03–06 Mar) · WS-MKT-019 (2 events, 05 Mar) | Base64 payload decodes to IEX (New-Object Net.WebClient).DownloadString(...) pattern — consistent with Empire PowerShell stager delivery</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENT_ID = "4688" AND processname = "MSBuild.exe"', log_type: "Windows", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Hunt for MSBuild proxy execution (T1127.001) — blog documents Empire using MSBuild stagers to bypass application controls</div><div class="tool-res">✓ 1 event on WS-DEV-042 (05 Mar 14:22 UTC) — MSBuild.exe launched from C:\Users\Public\Downloads\ (non-standard path), parent process: cmd.exe. Matches Empire MSBuild stager pattern.</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge crowdstrike">CrowdStrike</span> falcon_search_detections(filter: "behaviors.technique:'T1059.001'+behaviors.pattern:'EncodedCommand'", sort: "last_behavior|desc") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Cross-check CrowdStrike for PowerShell abuse detections matching Empire's stager technique</div><div class="tool-res">✓ 2 detections: "Suspicious Encoded PowerShell Execution" on WS-DEV-042 (High, 04 Mar) + "PowerShell Download Cradle" on WS-MKT-019 (Medium, 05 Mar) — both match Empire stager pattern from blog</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e06c75">2 hosts matched:</strong> WS-DEV-042 and WS-MKT-019 show encoded PowerShell stager patterns. WS-DEV-042 also has MSBuild proxy execution from a suspicious path. Both techniques are documented in the Qualys blog as Empire delivery mechanisms. Checking for C2 beaconing next.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 3 — C2 Domain &amp; Beaconing Hunt</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> generate_query(nlq: "DNS queries to jobbfinderrr.xyz, 000webhostapp.com, or any newly registered domain with high query volume in the last 7 days") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Hunt for C2 domain lookups using blog-referenced Empire IOCs and anomalous DNS patterns</div><div class="tool-res">✓ Generated query: EVENT_ID = "22" AND (queryname CONTAINS "jobbfinderrr.xyz" OR queryname CONTAINS "000webhostapp.com" OR queryname CONTAINS "microsofthelp")</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'EVENT_ID = "22" AND (queryname CONTAINS "jobbfinderrr" OR queryname CONTAINS "000webhostapp" OR queryname CONTAINS "microsofthelp")', log_type: "Windows", time: -7d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Execute DNS hunt query — checking for blog-referenced C2 domains and suspicious DNS patterns</div><div class="tool-res">✓ 0 hits for blog IOCs (jobbfinderrr[.]xyz, 000webhostapp[.]com) — campaigns may have rotated infrastructure · <strong>847 DNS queries to update.microsofthelp[.]services from WS-DEV-042</strong> over 48 hours (beaconing every ~30s) — suspicious domain not in blog but matches Empire HTTP/S C2 beaconing pattern</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_domain_analysis_data(domain: "update.microsofthelp.services") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Enrich the beaconing domain via integrated threat intelligence</div><div class="tool-res">⚠ SUSPICIOUS — registered 12 days ago, DGA-like naming pattern, no legitimate web presence, WHOIS privacy-protected. Not yet in major blocklists but high-risk indicators consistent with Empire C2 infrastructure setup.</div></div></div>
+      </div>
+      <p style="color:#bbb;margin:6px 0;font-size:12px"><strong style="color:#e8a317">DNS beaconing detected:</strong> Blog IOC domains not found (likely rotated), but WS-DEV-042 shows 847 queries to a suspicious newly-registered domain with ~30s beacon interval — consistent with Empire's HTTP/S C2 mechanism. Checking for Empire IP-based IOCs next.</p>
+      <div class="tool-calls-phase">
+        <div class="phase-label">Phase 4 — IP IOC Correlation &amp; Threat Intel</div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> execute_query(query: 'DEST_IP IN ("193.117.208.148","3.142.141.21","18.222.107.105")', log_type: "Firewall", time: -30d) <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Check firewall logs for connections to Empire campaign IPs from the Qualys blog (Campaigns #2 and #3)</div><div class="tool-res">✓ 0 hits for blog C2 IPs across all firewall logs — no direct connections to known Empire infrastructure detected. Campaigns may have rotated to new IPs.</div></div></div>
+        <div class="tool-call" onclick="toggleTool(this)"><span class="tool-badge log360">Log360</span> get_ip_analysis_data(ip: "update.microsofthelp.services") <span class="tool-type official">Official</span><div class="tool-detail"><div class="tool-req">→ Resolve and enrich the beaconing domain's IP via threat intelligence</div><div class="tool-res">✓ Resolves to 45.xx.xx.xx — not in known Empire IOC lists but flagged as SUSPICIOUS by multiple threat feeds. Hosting provider commonly used for short-lived C2 infrastructure.</div></div></div>
+      </div>
+
+      <div class="chat-summary"><strong>📋 Threat Hunt Summary — Empire C2 Framework Indicators</strong><br><br><strong>Blog Source:</strong> Qualys — "Dissecting the Empire C2 Framework" | Adversaries: Vice Society, Wizard Spider, Turla, APT41 | Techniques: T1059.001, T1071.001, T1132.001, T1127.001, T1047, T1102, +5 more.<br><strong>Hosts Identified:</strong> 2 hosts with matching indicators — WS-DEV-042 (HIGH risk: encoded PowerShell stager + MSBuild proxy execution + DNS beaconing) and WS-MKT-019 (MEDIUM risk: encoded PowerShell stager detected).<br><strong>DNS Beaconing:</strong> 847 queries from WS-DEV-042 to update.microsofthelp[.]services over 48 hours (~30s interval). Domain is 12 days old, DGA-like pattern, not yet blocklisted — consistent with Empire HTTP/S C2.<br><strong>Blog IOCs:</strong> No direct matches for blog-referenced C2 domains (jobbfinderrr[.]xyz, 000webhostapp[.]com) or IPs (193.117.208.148, 3.142.141.21) — campaigns likely rotated infrastructure.<br><strong>Techniques Matched:</strong> 4 of 11 MITRE techniques from blog found in environment: T1059.001, T1071.001, T1132.001, T1127.001.</div>
+    </div></div>
+  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copilot-ui-input-bar">
+      <input type="text" placeholder="Ask Copilot or type / for commands" disabled>
+      <div class="cp-send">▶</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CONSOLIDATED: WITHOUT MCP vs WITH MCP
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="slide left-align" data-section="Summary">
+  <h3><span class="red">Without MCP</span> vs <span class="accent">With MCP</span> — Across All Use Cases</h3>
+  <p class="desc" style="margin-bottom:14px">Every use case demonstrates the same fundamental shift: from fragmented, multi-console manual investigation to unified AI-orchestrated cross-vendor correlation.</p>
+  <div class="vs-grid">
+    <div class="vs-col before">
+      <h4 class="red"> Traditional SOC Workflow</h4>
+      <ul>
+        <li><strong>Console switching:</strong> Analysts toggle between multiple security consoles per investigation, copying IOCs manually</li>
+        <li><strong>Manual correlation:</strong> Cross-vendor log correlation takes hours — matching usernames, IPs, and timestamps across different formats</li>
+        <li><strong>Identity silos:</strong> Mapping Windows AD → AWS IAM → Okta identities requires separate lookups in each system</li>
+        <li><strong>Missed context:</strong> Analysts focus on their primary tool and miss signals from adjacent platforms (endpoint, identity, cloud, email)</li>
+        <li><strong>Estimated times:</strong> Incident response: 2–6 hours · Insider review: 1–2 days</li>
+      </ul>
+    </div>
+    <div class="vs-col after">
+      <h4 class="green"> With MCP Orchestration</h4>
+      <ul>
+        <li><strong>Single conversation:</strong> One natural language prompt triggers cross-vendor investigation — AI determines which MCP servers to query</li>
+        <li><strong>Automated correlation:</strong> AI correlates events across Log360, CrowdStrike, Okta, and cloud platforms in real-time</li>
+        <li><strong>Unified identity:</strong> Okta MCP resolves identities across all platforms automatically — one lookup maps all linked accounts</li>
+        <li><strong>Full kill chain:</strong> Every investigation traces across endpoint, identity, cloud, and network telemetry — no blind spots</li>
+        <li><strong>Estimated times:</strong> Incident response: 3–8 min · Insider review: 8–12 min</li>
+      </ul>
+    </div>
+  </div>
+  <div class="glow-box" style="margin-top:14px">
+    <p style="font-size:14px;color:#e0e0e0"> <strong>Key insight:</strong> MCP doesn't replace your security tools — it <strong class="accent">orchestrates them together</strong>. Log360 provides the investigation backbone (NLQ, UEBA, threat intel), while vendor MCP servers contribute complementary telemetry. The result: <strong class="accent">hours → minutes</strong> across every investigation type.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ░░░ ZOHO MCP & ON-PREM DEPLOYMENT ░░░
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ZOHO MCP — SECTION TITLE -->
+<div class="slide section-slide" data-section="Zoho MCP & On-Prem">
+  <p class="small" style="letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;color:#666">Expanding the MCP Ecosystem</p>
+  <h1 class="center"><span class="white">Zoho MCP &</span><br><span class="accent">On-Prem Log360 MCP Deployment</span></h1>
+  <p class="subtitle center" style="margin-top:14px">Connecting security workflows with business applications — cloud and on-prem</p>
+  <div class="tags" style="margin-top:24px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag" style="background:#e8a31718;color:#e8a317;border:1px solid #e8a31740">ZOHO MCP</span>
+    <span class="tag" style="background:#6c2dc718;color:#c084fc;border:1px solid #6c2dc740">ON-PREM DOCKER</span>
+  </div>
+</div>
+
+<!-- ZOHO MCP — WHAT IS IT -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h2>What Is <span class="yellow">Zoho MCP</span>?</h2>
+  <p class="desc" style="margin-bottom:16px">Zoho MCP is a product built around the Model Context Protocol — enabling AI agents to interact with <strong class="white">55+ Zoho &amp; ManageEngine apps</strong> and 500+ third-party integrations through a standardized interface. For security teams, this means tools like Endpoint Central and ServiceDesk Plus become AI-accessible out of the box.</p>
+  <div class="split">
+    <div class="col">
+      <h4>Key Capabilities</h4>
+      <ul class="bullets compact">
+        <li><strong>Agent-ready apps:</strong> AI agents can execute actions across Zoho &amp; ManageEngine products via natural language — from CRM to endpoint security</li>
+        <li><strong>Works with all LLMs:</strong> Compatible with Claude, GPT, and other AI agents out of the box</li>
+        <li><strong>500+ integrations:</strong> Connects Zoho apps with third-party services (Slack, GitHub, Stripe, Twilio, etc.)</li>
+        <!-- <li><strong>Autonomous agents:</strong> Supports fully autonomous workflows — monitor, reason, and act without human prompts</li> -->
+        <li><strong>API-native execution:</strong> Translates natural language intent into real API calls — e.g., patch scans, vulnerability reports, ticket creation</li>
+      </ul>
+      <!-- <div class="glow-box" style="margin-top:12px;padding:10px 12px">
+        <p style="font-size:10px;color:#aaa;margin:0"><strong class="yellow">Security-Relevant Highlights</strong></p>
+        <p style="font-size:10px;color:#bbb;margin:4px 0 0">
+          <span style="color:#6cb6ff">Endpoint Central</span> — 59 tools: Patch Mgmt, Vulnerability Scanning, Device Control, BitLocker, Misconfigurations, File Tracing<br>
+          <span style="color:#4ec9b0">ServiceDesk Plus</span> — 93 tools: Incident Requests, Change &amp; Problem Mgmt, Asset Tracking, Solutions KB, AI Suggestions
+        </p>
+      </div> -->
+      <p class="tiny" style="margin-top:8px;color:#888">Source: <a href="https://www.zoho.com/mcp/" style="color:#6cb6ff;text-decoration:none">zoho.com/mcp</a></p>
+    </div>
+    <div class="col">
+      <h4>How Zoho MCP Works</h4>
+      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
+        <div class="flow-node mcp" style="text-align:center"> AI Agent (Claude / GPT / Custom)</div>
+        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ NATURAL LANGUAGE PROMPT ↓</div>
+        <div class="flow-node" style="text-align:center;background:#1a1a10;border:1px solid #e8a31766;color:#e8a317;padding:10px"> Zoho MCP Server<br><span style="font-size:10px">Context gathering → Tool selection → API execution</span></div>
+        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ STANDARDIZED MCP PROTOCOL ↓</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Endpoint Central<br><span style="font-size:9px">Patch · Vuln · Device </span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> ServiceDesk Plus<br><span style="font-size:9px">ITSM · Assets · KB </span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho CRM<br><span style="font-size:9px">Leads · Deals · Contacts</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Vault<br><span style="font-size:9px">Secrets · Passwords</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Cliq<br><span style="font-size:9px">Alerts · Notifications</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> 500+ More<br><span style="font-size:9px">Third-party integrations</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ON-PREM MCP SERVER — DOCKER DEPLOYMENT -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h2><span class="purple">On-Prem MCP Server:</span> Docker Deployment</h2>
+  <p class="desc" style="margin-bottom:16px">For organizations running Log360 on-premises, we are planning to deliver the MCP server as a containerized Docker deployment — bringing the same AI orchestration capabilities to air-gapped and on-prem environments.</p>
+  <div class="split">
+    <div class="col-wide">
+      <h4>How It Works</h4>
+      <!-- Simplified Docker Architecture Diagram with Professional Logos -->
+      <div style="width:100%;background:#0e0e1a;border:1px solid #252535;border-radius:12px;padding:20px 16px;margin:8px 0">
+        <!-- Customer Network Boundary -->
+        <div style="border:1px dashed #555;border-radius:10px;padding:16px 14px 14px;position:relative">
+          <span style="position:absolute;top:-10px;left:16px;background:#0e0e1a;padding:0 8px;font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase">Customer On-Prem Network</span>
+
+          <!-- Row 1: AI Client with professional branding -->
+          <div style="text-align:center;margin-top:6px">
+            <div style="display:inline-flex;align-items:center;gap:12px;background:#151525;border:1px solid #4ec9b066;border-radius:10px;padding:12px 24px">
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">💻</div> -->
+                <div style="font-size:10px;color:#4ec9b0;font-weight:600">GitHub Copilot</div>
+              </div>
+              <div style="color:#555;font-size:14px">|</div>
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">🤖</div> -->
+                <div style="font-size:10px;color:#e8a317;font-weight:600">Claude Desktop</div>
+              </div>
+              <div style="color:#555;font-size:14px">|</div>
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">⚙️</div> -->
+                <div style="font-size:10px;color:#c084fc;font-weight:600">Custom Agent</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow down: STDIO / SSE -->
+          <div style="text-align:center;padding:4px 0">
+            <div style="display:inline-block;color:#c084fc;font-size:18px;line-height:1">↕</div>
+            <div style="font-size:10px;color:#999;letter-spacing:.3px">STDIO / SSE</div>
+          </div>
+
+          <!-- Row 2: Docker Container with MCP Server -->
+          <div style="text-align:center">
+            <div style="display:inline-block;background:#151530;border:2px solid #c084fc55;border-radius:10px;padding:12px 24px 10px;position:relative;min-width:300px">
+              <span style="position:absolute;top:-10px;left:14px;background:#151530;padding:0 6px;font-size:10px;color:#c084fc;letter-spacing:.8px;font-weight:600">
+                🐳 DOCKER CONTAINER
+              </span>
+              <div class="flow-node log360" style="display:inline-block;min-width:220px;padding:10px 18px;font-size:12px;margin-top:4px">Log360 MCP Server<br><span style="font-size:10px;opacity:.85">Alerts · NLQ · UEBA · Threat Intel</span></div>
+              <div style="margin-top:6px;font-size:10px;color:#c084fc;letter-spacing:.3px"> <code style="color:#c084fc;font-size:10px">LOG360_API_KEY</code> configured in env</div>
+            </div>
+          </div>
+
+          <!-- Arrow down: REST API + API Key Auth -->
+          <div style="text-align:center;padding:4px 0">
+            <div style="display:inline-block;color:#6cb6ff;font-size:18px;line-height:1">↕</div>
+            <div style="font-size:10px;color:#999;letter-spacing:.3px">REST API + API Key Auth</div>
+          </div>
+
+          <!-- Row 3: Log360 On-Prem Instance -->
+          <div style="text-align:center">
+            <div class="flow-node system" style="display:inline-block;min-width:260px;padding:10px 20px;font-size:13px"> Log360 On-Prem Instance<br><span style="font-size:10px;opacity:.8">Generates API Keys · Exposes REST APIs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <h4>Why Docker?</h4>
+      <ul class="bullets compact">
+        <li><strong>Isolated & portable:</strong> No host dependencies — runs on any Docker-compatible infrastructure</li>
+        <li><strong>Air-gap compatible:</strong> Works in restricted networks with no internet access — supports local LLMs (e.g., Ollama, LM Studio) for fully offline AI orchestration</li>
+        <li><strong>Easy upgrades:</strong> Pull new image, restart container — no manual patching</li>
+        <li><strong>Multi-server orchestration:</strong> Run Log360 + other vendor MCP servers side-by-side</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ON-PREM vs CLOUD COMPARISON -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h3>Cloud vs. On-Prem MCP: <span class="accent">Same Capabilities, Flexible Deployment</span></h3>
+  <p class="desc" style="margin-bottom:14px">Whether customers run Log360 in the cloud or on-premises, the MCP experience is consistent — same tools, same protocol, same AI orchestration.</p>
+  <div class="vs-grid">
+    <div class="vs-col" style="background:#0e1525;border:1px solid #6cb6ff33;border-radius:10px 0 0 10px">
+      <h4 class="blue"> Cloud MCP (Log360 Cloud)</h4>
+      <ul>
+        <li>Hosted MCP server managed by Zoho</li>
+        <li>Automatic updates and scaling</li>
+        <li>Direct API connectivity to Log360 Cloud</li>
+        <li>SSE transport over HTTPS</li>
+        <li>Ideal for cloud-first organizations</li>
+        <li>Zero infrastructure management</li>
+        <!-- <li><strong style="color:#6cb6ff">Available today</strong></li> -->
+      </ul>
+    </div>
+    <div class="vs-col" style="background:#151530;border:1px solid #c084fc33;border-radius:0 10px 10px 0">
+      <h4 class="purple"> On-Prem MCP (Docker)</h4>
+      <ul>
+        <li>Self-hosted Docker container on customer infrastructure</li>
+        <li>Customer-controlled update cadence</li>
+        <li>Connects to on-prem Log360 via internal network</li>
+        <li>STDIO or SSE transport (local)</li>
+        <li>Ideal for regulated, air-gapped, or hybrid environments</li>
+        <!-- <li>Full data sovereignty — nothing leaves the network</li> -->
+        <!-- <li><strong style="color:#c084fc">Planned — in development</strong></li> -->
+      </ul>
+    </div>
+  </div>
+  <div class="card-grid card-grid-4" style="margin-top:16px">
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same MCP Tools</h4>
+      <p>Alerts, NLQ, UEBA, Threat Intel, Detections — identical API surface</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same AI Clients</h4>
+      <p>Copilot, Claude Desktop, custom agents — any MCP-compatible client</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same Protocol</h4>
+      <p>MCP standard ensures interoperability across cloud and on-prem</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same Orchestration</h4>
+      <p>Cross-vendor correlation works identically in both deployment models</p>
+    </div>
+  </div>
+  <!-- <div class="glow-box" style="margin-top:14px">
+    <p style="font-size:14px;color:#e0e0e0"> <strong>Key insight:</strong> The Docker-based on-prem MCP server ensures that <strong class="accent">customers in regulated industries (healthcare, finance, government) can adopt MCP-powered AI orchestration</strong> without compromising data sovereignty or network isolation requirements.</p>
+  </div> -->
+</div>
+
+<!-- FINAL B — CLOSING (Force Multiplier) -->
+<div class="slide section-slide" data-section="Closing">
+  <h1 class="center" style="margin-bottom:20px"><span class="white">Log360Cloud MCP Is a</span><br><span class="accent" style="font-size:clamp(36px,5vw,64px)">Force Multiplier</span><br><span class="white">for Modern SOC Teams</span></h1>
+  <div style="max-width:700px;margin:20px auto 0">
+    <div class="card-grid card-grid-2" style="gap:12px">
+      <div class="card" style="text-align:center;background:#0e1525">
+        <div style="font-size:36px"></div>
+        <p style="color:#6cb6ff;font-weight:600;margin-top:8px">One AI correlates across tools</p>
+        <p class="small">No single tool sees the full attack alone.<br>MCP orchestrates them together.</p>
+      </div>
+      <div class="card" style="text-align:center;background:#0e1525">
+        <div style="font-size:36px"></div>
+        <p style="color:#4ec9b0;font-weight:600;margin-top:8px">Speed enables faster response</p>
+        <p class="small">Hours → Minutes.<br>Accelerated investigation means faster containment.</p>
+      </div>
+      <div class="card" style="text-align:center;background:#0e1525">
+        <div style="font-size:36px"></div>
+        <p style="color:#e8a317;font-weight:600;margin-top:8px">Finding gaps = preventing threats</p>
+        <p class="small">Every investigation improves defenses.<br>Every quarter surfaces coverage gaps.</p>
+      </div>
+      <div class="card" style="text-align:center;background:#0e1525">
+        <div style="font-size:36px"></div>
+        <p style="color:#c084fc;font-weight:600;margin-top:8px">Orchestration layer, not replacement</p>
+        <p class="small">MCP positions Log360Cloud as the investigation hub<br>alongside your existing security stack.</p>
+      </div>
+    </div>
+  </div>
+  <p class="tiny center" style="margin-top:24px;letter-spacing:1px">LOG360 · MODEL CONTEXT PROTOCOL · NEXT-GENERATION SOC ORCHESTRATION</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="nav">
+  <button class="slide-picker-toggle" onclick="togglePicker()" title="Slide Navigator (G)">▦</button>
+  <button id="prevBtn" onclick="go(-1)">◀</button>
+  <button id="nextBtn" onclick="go(1)">▶</button>
+</div>
+
+<!-- Slide Picker Overlay -->
+<div class="slide-picker-backdrop" id="slidePicker" onclick="closePicker(event)">
+  <div class="slide-picker-panel" id="slidePickerPanel">
+    <div class="sp-header">
+      <h3> Jump to Slide</h3>
+      <button class="sp-close" onclick="togglePicker()">✕</button>
+    </div>
+    <div class="sp-grid" id="spGrid"></div>
+  </div>
+</div>
+
+<script>
+function toggleTool(el){el.classList.toggle('expanded');}
+function toggleInvestigationTools(el){el.closest('.investigation-tools-dropdown').classList.toggle('open');}
+
+
+const slides = [...document.querySelectorAll('#deck > .slide')];
+const total = slides.length;
+let cur = 0;
+
+function show(n, dir) {
+  if (n < 0 || n >= total) return;
+  const old = slides[cur];
+  const nxt = slides[n];
+  if (dir > 0) {
+    old.classList.remove('active');
+    old.classList.add('exit-left');
+  } else {
+    old.classList.remove('active');
+    old.classList.add('exit-right');
+  }
+  setTimeout(() => {
+    old.classList.remove('exit-left', 'exit-right');
+  }, 500);
+  nxt.classList.add('active');
+  nxt.scrollTop = 0;
+  cur = n;
+  update();
+}
+
+function go(dir) { show(cur + dir, dir); }
+
+function update() {
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === total - 1;
+  document.getElementById('slideCounter').textContent = `${cur + 1} / ${total}`;
+  document.getElementById('progress').style.width = `${((cur + 1) / total) * 100}%`;
+  const section = slides[cur].dataset.section || '';
+  document.getElementById('sectionIndicator').textContent = section;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  if (e.key === 'Home') { e.preventDefault(); show(0, -1); }
+  if (e.key === 'End') { e.preventDefault(); show(total - 1, 1); }
+});
+
+// Touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) { diff > 0 ? go(1) : go(-1); }
+});
+
+update();
+
+/* ── Slide Picker ── */
+const pickerEl = document.getElementById('slidePicker');
+const spGrid   = document.getElementById('spGrid');
+let pickerBuilt = false;
+
+function buildPicker() {
+  if (pickerBuilt) return;
+  spGrid.innerHTML = '';
+  slides.forEach((sl, i) => {
+    const card = document.createElement('div');
+    card.className = 'sp-card' + (i === cur ? ' sp-active' : '');
+    card.setAttribute('data-idx', i);
+    card.onclick = function(e) {
+      e.stopPropagation();
+      jumpTo(i);
+    };
+
+    // Extract title text from the slide
+    const h = sl.querySelector('h1,h2,h3');
+    let titleText = h ? h.textContent.trim().substring(0, 60) : 'Slide ' + (i + 1);
+    const section = sl.dataset.section || '';
+
+    // Build thumbnail by cloning the slide into a scaled container
+    const thumb = document.createElement('div');
+    thumb.className = 'sp-thumb';
+    const inner = document.createElement('div');
+    inner.className = 'sp-thumb-inner';
+    const clone = sl.cloneNode(true);
+    clone.classList.add('active');
+    clone.classList.remove('exit-left','exit-right');
+    // Remove interactive elements in clone
+    clone.querySelectorAll('.tool-call').forEach(t => t.onclick = null);
+    inner.appendChild(clone);
+    thumb.appendChild(inner);
+
+    // Scale the 1920×1080 render into the thumbnail
+    const scaleThumb = () => {
+      const w = thumb.offsetWidth;
+      if (w > 0) inner.style.transform = 'scale(' + (w / 1920) + ')';
+    };
+    requestAnimationFrame(scaleThumb);
+
+    const label = document.createElement('div');
+    label.className = 'sp-label';
+    label.innerHTML = '<span class="sp-num">' + (i + 1) + '</span><span class="sp-title">' + titleText + '</span>';
+
+    card.appendChild(thumb);
+    if (section) {
+      const sec = document.createElement('div');
+      sec.className = 'sp-section';
+      sec.textContent = section;
+      card.appendChild(sec);
+    }
+    card.appendChild(label);
+    spGrid.appendChild(card);
+  });
+  pickerBuilt = true;
+
+  // Ensure thumbnails scale after layout
+  requestAnimationFrame(() => {
+    spGrid.querySelectorAll('.sp-thumb').forEach(thumb => {
+      const inner = thumb.querySelector('.sp-thumb-inner');
+      const w = thumb.offsetWidth;
+      if (w > 0) inner.style.transform = 'scale(' + (w / 1920) + ')';
+    });
+  });
+}
+
+function refreshPickerActive() {
+  spGrid.querySelectorAll('.sp-card').forEach((c, i) => {
+    c.classList.toggle('sp-active', i === cur);
+  });
+}
+
+function togglePicker() {
+  const isOpen = pickerEl.classList.contains('open');
+  if (!isOpen) {
+    buildPicker();
+    refreshPickerActive();
+    // Scroll current slide card into view
+    requestAnimationFrame(() => {
+      const active = spGrid.querySelector('.sp-active');
+      if (active) active.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+  pickerEl.classList.toggle('open');
+}
+
+function closePicker(e) {
+  if (e.target === pickerEl) pickerEl.classList.remove('open');
+}
+
+function jumpTo(idx) {
+  pickerEl.classList.remove('open');
+  const dir = idx >= cur ? 1 : -1;
+  show(idx, dir);
+}
+
+// Keyboard: 'G' to toggle picker, Escape to close
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && pickerEl.classList.contains('open')) {
+    e.preventDefault();
+    pickerEl.classList.remove('open');
+  }
+  if ((e.key === 'g' || e.key === 'G') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    const tag = document.activeElement?.tagName;
+    if (tag !== 'INPUT' && tag !== 'TEXTAREA') {
+      e.preventDefault();
+      togglePicker();
+    }
+  }
+});
+
+/* ── Lightbox for Screenshots ── */
+function openLightbox(imgEl) {
+  const modal = document.getElementById('lightboxModal');
+  const lbImg = document.getElementById('lightboxImg');
+  lbImg.src = imgEl.src;
+  lbImg.alt = imgEl.alt;
+  modal.classList.add('open');
+}
+function closeLightbox(e) {
+  const modal = document.getElementById('lightboxModal');
+  if (e.target === modal || e.target.classList.contains('lightbox-close')) {
+    modal.classList.remove('open');
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('lightboxModal').classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
