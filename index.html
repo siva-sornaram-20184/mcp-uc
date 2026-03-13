@@ -682,8 +682,216 @@ td:first-child{color:#e0e0e0;font-weight:500}
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SLIDE 4 — TOOL CLASSIFICATION (REMOVED — key note moved to Agenda)
+     ░░░ ZOHO MCP & ON-PREM DEPLOYMENT ░░░
      ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ZOHO MCP — SECTION TITLE -->
+<!-- <div class="slide section-slide" data-section="Zoho MCP & On-Prem">
+  <p class="small" style="letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;color:#666">Expanding the MCP Ecosystem</p>
+  <h1 class="center"><span class="white">Zoho MCP &</span><br><span class="accent">On-Prem Log360 MCP Deployment</span></h1>
+  <p class="subtitle center" style="margin-top:14px">Connecting security workflows with business applications — cloud and on-prem</p>
+  <div class="tags" style="margin-top:24px;justify-content:center">
+    <span class="tag log360">LOG360</span>
+    <span class="tag" style="background:#e8a31718;color:#e8a317;border:1px solid #e8a31740">ZOHO MCP</span>
+    <span class="tag" style="background:#6c2dc718;color:#c084fc;border:1px solid #6c2dc740">ON-PREM DOCKER</span>
+  </div>
+</div> -->
+
+<!-- ZOHO MCP — WHAT IS IT -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h2>What Is <span class="yellow">Zoho MCP</span>?</h2>
+  <p class="desc" style="margin-bottom:16px">Zoho MCP is a product built around the Model Context Protocol — enabling AI agents to interact with <strong class="white">55+ Zoho &amp; ManageEngine apps</strong> and 500+ third-party integrations through a standardized interface. For security teams, this means tools like Endpoint Central and ServiceDesk Plus become AI-accessible out of the box.</p>
+  <div class="split">
+    <div class="col">
+      <h4>Key Capabilities</h4>
+      <ul class="bullets compact">
+        <li><strong>Agent-ready apps:</strong> AI agents can execute actions across Zoho &amp; ManageEngine products via natural language — from CRM to endpoint security</li>
+        <li><strong>Works with all LLMs:</strong> Compatible with Claude, GPT, and other AI agents out of the box</li>
+        <li><strong>500+ integrations:</strong> Connects Zoho apps with third-party services (Slack, GitHub, Stripe, Twilio, etc.)</li>
+        <!-- <li><strong>Autonomous agents:</strong> Supports fully autonomous workflows — monitor, reason, and act without human prompts</li> -->
+        <li><strong>API-native execution:</strong> Translates natural language intent into real API calls — e.g., patch scans, vulnerability reports, ticket creation</li>
+      </ul>
+      <!-- <div class="glow-box" style="margin-top:12px;padding:10px 12px">
+        <p style="font-size:10px;color:#aaa;margin:0"><strong class="yellow">Security-Relevant Highlights</strong></p>
+        <p style="font-size:10px;color:#bbb;margin:4px 0 0">
+          <span style="color:#6cb6ff">Endpoint Central</span> — 59 tools: Patch Mgmt, Vulnerability Scanning, Device Control, BitLocker, Misconfigurations, File Tracing<br>
+          <span style="color:#4ec9b0">ServiceDesk Plus</span> — 93 tools: Incident Requests, Change &amp; Problem Mgmt, Asset Tracking, Solutions KB, AI Suggestions
+        </p>
+      </div> -->
+      <p class="tiny" style="margin-top:8px;color:#888">Source: <a href="https://www.zoho.com/mcp/" style="color:#6cb6ff;text-decoration:none">zoho.com/mcp</a></p>
+    </div>
+    <div class="col">
+      <h4>How Zoho MCP Works</h4>
+      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
+        <div class="flow-node mcp" style="text-align:center"> AI Agent (Claude / GPT / Custom)</div>
+        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ NATURAL LANGUAGE PROMPT ↓</div>
+        <div class="flow-node" style="text-align:center;background:#1a1a10;border:1px solid #e8a31766;color:#e8a317;padding:10px"> Zoho MCP Server<br><span style="font-size:10px">Context gathering → Tool selection → API execution</span></div>
+        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ STANDARDIZED MCP PROTOCOL ↓</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Endpoint Central<br><span style="font-size:9px">Patch · Vuln · Device </span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> ServiceDesk Plus<br><span style="font-size:9px">ITSM · Assets · KB </span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho CRM<br><span style="font-size:9px">Leads · Deals · Contacts</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Vault<br><span style="font-size:9px">Secrets · Passwords</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Cliq<br><span style="font-size:9px">Alerts · Notifications</span></div>
+          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> 500+ More<br><span style="font-size:9px">Third-party integrations</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Zoho MCP Screenshots -->
+<div class="slide left-align" data-section="Zoho MCP Screenshots">
+  <h3>Zoho MCP Screenshots</h3>
+  <p class="desc" style="margin-bottom:14px">Actual Screenshots of Zoho MCP along with some tools configured</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:1120px">
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp1.png" alt="MCP Screenshot 1" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp2.png" alt="MCP Screenshot 2" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp3.png" alt="MCP Screenshot 3" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp4.png" alt="MCP Screenshot 4" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+  </div>
+  <p class="tiny center" style="margin-top:10px">Screenshots from Zoho MCP with some tools configured</p>
+</div>
+
+<!-- ON-PREM MCP SERVER — DOCKER DEPLOYMENT -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h2><span class="purple">On-Prem MCP Server:</span> Docker Deployment</h2>
+  <p class="desc" style="margin-bottom:16px">For organizations running Log360 on-premises, we are planning to deliver the MCP server as a containerized Docker deployment — bringing the same AI orchestration capabilities to air-gapped and on-prem environments.</p>
+  <div class="split">
+    <div class="col-wide">
+      <h4>How It Works</h4>
+      <!-- Simplified Docker Architecture Diagram with Professional Logos -->
+      <div style="width:100%;background:#0e0e1a;border:1px solid #252535;border-radius:12px;padding:20px 16px;margin:8px 0">
+        <!-- Customer Network Boundary -->
+        <div style="border:1px dashed #555;border-radius:10px;padding:16px 14px 14px;position:relative">
+          <span style="position:absolute;top:-10px;left:16px;background:#0e0e1a;padding:0 8px;font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase">Customer On-Prem Network</span>
+
+          <!-- Row 1: AI Client with professional branding -->
+          <div style="text-align:center;margin-top:6px">
+            <div style="display:inline-flex;align-items:center;gap:12px;background:#151525;border:1px solid #4ec9b066;border-radius:10px;padding:12px 24px">
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">💻</div> -->
+                <div style="font-size:10px;color:#4ec9b0;font-weight:600">GitHub Copilot</div>
+              </div>
+              <div style="color:#555;font-size:14px">|</div>
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">🤖</div> -->
+                <div style="font-size:10px;color:#e8a317;font-weight:600">Claude Desktop</div>
+              </div>
+              <div style="color:#555;font-size:14px">|</div>
+              <div style="text-align:center">
+                <!-- <div style="font-size:20px;margin-bottom:2px">⚙️</div> -->
+                <div style="font-size:10px;color:#c084fc;font-weight:600">Custom Agent</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow down: STDIO / SSE -->
+          <div style="text-align:center;padding:4px 0">
+            <div style="display:inline-block;color:#c084fc;font-size:18px;line-height:1">↕</div>
+            <div style="font-size:10px;color:#999;letter-spacing:.3px">STDIO / SSE</div>
+          </div>
+
+          <!-- Row 2: Docker Container with MCP Server -->
+          <div style="text-align:center">
+            <div style="display:inline-block;background:#151530;border:2px solid #c084fc55;border-radius:10px;padding:12px 24px 10px;position:relative;min-width:300px">
+              <span style="position:absolute;top:-10px;left:14px;background:#151530;padding:0 6px;font-size:10px;color:#c084fc;letter-spacing:.8px;font-weight:600">
+                🐳 DOCKER CONTAINER
+              </span>
+              <div class="flow-node log360" style="display:inline-block;min-width:220px;padding:10px 18px;font-size:12px;margin-top:4px">Log360 MCP Server<br><span style="font-size:10px;opacity:.85">Alerts · NLQ · UEBA · Threat Intel</span></div>
+              <div style="margin-top:6px;font-size:10px;color:#c084fc;letter-spacing:.3px"> <code style="color:#c084fc;font-size:10px">LOG360_API_KEY</code> configured in env</div>
+            </div>
+          </div>
+
+          <!-- Arrow down: REST API + API Key Auth -->
+          <div style="text-align:center;padding:4px 0">
+            <div style="display:inline-block;color:#6cb6ff;font-size:18px;line-height:1">↕</div>
+            <div style="font-size:10px;color:#999;letter-spacing:.3px">REST API + API Key Auth</div>
+          </div>
+
+          <!-- Row 3: Log360 On-Prem Instance -->
+          <div style="text-align:center">
+            <div class="flow-node system" style="display:inline-block;min-width:260px;padding:10px 20px;font-size:13px"> Log360 On-Prem Instance<br><span style="font-size:10px;opacity:.8">Generates API Keys · Exposes REST APIs</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <h4>Why Docker?</h4>
+      <ul class="bullets compact">
+        <li><strong>Isolated & portable:</strong> No host dependencies — runs on any Docker-compatible infrastructure</li>
+        <li><strong>Air-gap compatible:</strong> Works in restricted networks with no internet access — supports local LLMs (e.g., Ollama, LM Studio) for fully offline AI orchestration</li>
+        <li><strong>Easy upgrades:</strong> Pull new image, restart container — no manual patching</li>
+        <li><strong>Multi-server orchestration:</strong> Run Log360 + other vendor MCP servers side-by-side</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ON-PREM vs CLOUD COMPARISON -->
+<div class="slide left-align" data-section="Zoho MCP & On-Prem">
+  <h3>Cloud vs. On-Prem MCP: <span class="accent">Same Capabilities, Flexible Deployment</span></h3>
+  <p class="desc" style="margin-bottom:14px">Whether customers run Log360 in the cloud or on-premises, the MCP experience is consistent — same tools, same protocol, same AI orchestration.</p>
+  <div class="vs-grid">
+    <div class="vs-col" style="background:#0e1525;border:1px solid #6cb6ff33;border-radius:10px 0 0 10px">
+      <h4 class="blue"> Cloud MCP (Log360 Cloud)</h4>
+      <ul>
+        <li>Hosted MCP server managed by Zoho</li>
+        <li>Automatic updates and scaling</li>
+        <li>Direct API connectivity to Log360 Cloud</li>
+        <li>SSE transport over HTTPS</li>
+        <li>Ideal for cloud-first organizations</li>
+        <li>Zero infrastructure management</li>
+        <!-- <li><strong style="color:#6cb6ff">Available today</strong></li> -->
+      </ul>
+    </div>
+    <div class="vs-col" style="background:#151530;border:1px solid #c084fc33;border-radius:0 10px 10px 0">
+      <h4 class="purple"> On-Prem MCP (Docker)</h4>
+      <ul>
+        <li>Self-hosted Docker container on customer infrastructure</li>
+        <li>Customer-controlled update cadence</li>
+        <li>Connects to on-prem Log360 via internal network</li>
+        <li>STDIO or SSE transport (local)</li>
+        <li>Ideal for regulated, air-gapped, or hybrid environments</li>
+        <!-- <li>Full data sovereignty — nothing leaves the network</li> -->
+        <!-- <li><strong style="color:#c084fc">Planned — in development</strong></li> -->
+      </ul>
+    </div>
+  </div>
+  <div class="card-grid card-grid-4" style="margin-top:16px">
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same MCP Tools</h4>
+      <p>Alerts, NLQ, UEBA, Threat Intel, Detections — identical API surface</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same AI Clients</h4>
+      <p>Copilot, Claude Desktop, custom agents — any MCP-compatible client</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same Protocol</h4>
+      <p>MCP standard ensures interoperability across cloud and on-prem</p>
+    </div>
+    <div class="card green-border" style="text-align:center">
+      <div class="icon"></div>
+      <h4>Same Orchestration</h4>
+      <p>Cross-vendor correlation works identically in both deployment models</p>
+    </div>
+  </div>
+  <!-- <div class="glow-box" style="margin-top:14px">
+    <p style="font-size:14px;color:#e0e0e0"> <strong>Key insight:</strong> The Docker-based on-prem MCP server ensures that <strong class="accent">customers in regulated industries (healthcare, finance, government) can adopt MCP-powered AI orchestration</strong> without compromising data sovereignty or network isolation requirements.</p>
+  </div> -->
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 4 — AGENDA
@@ -1716,219 +1924,6 @@ td:first-child{color:#e0e0e0;font-weight:500}
   <div class="glow-box" style="margin-top:14px">
     <p style="font-size:14px;color:#e0e0e0"> <strong>Key insight:</strong> MCP doesn't replace your security tools — it <strong class="accent">orchestrates them together</strong>. Log360 provides the investigation backbone (NLQ, UEBA, threat intel), while vendor MCP servers contribute complementary telemetry. The result: <strong class="accent">hours → minutes</strong> across every investigation type.</p>
   </div>
-</div>
-
-
-<!-- ═══════════════════════════════════════════════════════════════
-     ░░░ ZOHO MCP & ON-PREM DEPLOYMENT ░░░
-     ═══════════════════════════════════════════════════════════════ -->
-
-<!-- ZOHO MCP — SECTION TITLE -->
-<div class="slide section-slide" data-section="Zoho MCP & On-Prem">
-  <p class="small" style="letter-spacing:3px;text-transform:uppercase;margin-bottom:18px;color:#666">Expanding the MCP Ecosystem</p>
-  <h1 class="center"><span class="white">Zoho MCP &</span><br><span class="accent">On-Prem Log360 MCP Deployment</span></h1>
-  <p class="subtitle center" style="margin-top:14px">Connecting security workflows with business applications — cloud and on-prem</p>
-  <div class="tags" style="margin-top:24px;justify-content:center">
-    <span class="tag log360">LOG360</span>
-    <span class="tag" style="background:#e8a31718;color:#e8a317;border:1px solid #e8a31740">ZOHO MCP</span>
-    <span class="tag" style="background:#6c2dc718;color:#c084fc;border:1px solid #6c2dc740">ON-PREM DOCKER</span>
-  </div>
-</div>
-
-<!-- ZOHO MCP — WHAT IS IT -->
-<div class="slide left-align" data-section="Zoho MCP & On-Prem">
-  <h2>What Is <span class="yellow">Zoho MCP</span>?</h2>
-  <p class="desc" style="margin-bottom:16px">Zoho MCP is a product built around the Model Context Protocol — enabling AI agents to interact with <strong class="white">55+ Zoho &amp; ManageEngine apps</strong> and 500+ third-party integrations through a standardized interface. For security teams, this means tools like Endpoint Central and ServiceDesk Plus become AI-accessible out of the box.</p>
-  <div class="split">
-    <div class="col">
-      <h4>Key Capabilities</h4>
-      <ul class="bullets compact">
-        <li><strong>Agent-ready apps:</strong> AI agents can execute actions across Zoho &amp; ManageEngine products via natural language — from CRM to endpoint security</li>
-        <li><strong>Works with all LLMs:</strong> Compatible with Claude, GPT, and other AI agents out of the box</li>
-        <li><strong>500+ integrations:</strong> Connects Zoho apps with third-party services (Slack, GitHub, Stripe, Twilio, etc.)</li>
-        <!-- <li><strong>Autonomous agents:</strong> Supports fully autonomous workflows — monitor, reason, and act without human prompts</li> -->
-        <li><strong>API-native execution:</strong> Translates natural language intent into real API calls — e.g., patch scans, vulnerability reports, ticket creation</li>
-      </ul>
-      <!-- <div class="glow-box" style="margin-top:12px;padding:10px 12px">
-        <p style="font-size:10px;color:#aaa;margin:0"><strong class="yellow">Security-Relevant Highlights</strong></p>
-        <p style="font-size:10px;color:#bbb;margin:4px 0 0">
-          <span style="color:#6cb6ff">Endpoint Central</span> — 59 tools: Patch Mgmt, Vulnerability Scanning, Device Control, BitLocker, Misconfigurations, File Tracing<br>
-          <span style="color:#4ec9b0">ServiceDesk Plus</span> — 93 tools: Incident Requests, Change &amp; Problem Mgmt, Asset Tracking, Solutions KB, AI Suggestions
-        </p>
-      </div> -->
-      <p class="tiny" style="margin-top:8px;color:#888">Source: <a href="https://www.zoho.com/mcp/" style="color:#6cb6ff;text-decoration:none">zoho.com/mcp</a></p>
-    </div>
-    <div class="col">
-      <h4>How Zoho MCP Works</h4>
-      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
-        <div class="flow-node mcp" style="text-align:center"> AI Agent (Claude / GPT / Custom)</div>
-        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ NATURAL LANGUAGE PROMPT ↓</div>
-        <div class="flow-node" style="text-align:center;background:#1a1a10;border:1px solid #e8a31766;color:#e8a317;padding:10px"> Zoho MCP Server<br><span style="font-size:10px">Context gathering → Tool selection → API execution</span></div>
-        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ STANDARDIZED MCP PROTOCOL ↓</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Endpoint Central<br><span style="font-size:9px">Patch · Vuln · Device </span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> ServiceDesk Plus<br><span style="font-size:9px">ITSM · Assets · KB </span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho CRM<br><span style="font-size:9px">Leads · Deals · Contacts</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Vault<br><span style="font-size:9px">Secrets · Passwords</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Cliq<br><span style="font-size:9px">Alerts · Notifications</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> 500+ More<br><span style="font-size:9px">Third-party integrations</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Zoho MCP Screenshots -->
-<div class="slide left-align" data-section="Zoho MCP Screenshots">
-  <h3>Zoho MCP Screenshots</h3>
-  <p class="desc" style="margin-bottom:14px">Actual Screenshots of Zoho MCP along with some tools configured</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:1120px">
-    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
-      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp1.png" alt="MCP Screenshot 1" style="width:100%;display:block" onclick="openLightbox(this)">
-    </div>
-    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
-      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp2.png" alt="MCP Screenshot 2" style="width:100%;display:block" onclick="openLightbox(this)">
-    </div>
-    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
-      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp3.png" alt="MCP Screenshot 3" style="width:100%;display:block" onclick="openLightbox(this)">
-    </div>
-    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
-      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp4.png" alt="MCP Screenshot 4" style="width:100%;display:block" onclick="openLightbox(this)">
-    </div>
-  </div>
-  <p class="tiny center" style="margin-top:10px">Screenshots from Zoho MCP with some tools configured</p>
-</div>
-
-<!-- ON-PREM MCP SERVER — DOCKER DEPLOYMENT -->
-<div class="slide left-align" data-section="Zoho MCP & On-Prem">
-  <h2><span class="purple">On-Prem MCP Server:</span> Docker Deployment</h2>
-  <p class="desc" style="margin-bottom:16px">For organizations running Log360 on-premises, we are planning to deliver the MCP server as a containerized Docker deployment — bringing the same AI orchestration capabilities to air-gapped and on-prem environments.</p>
-  <div class="split">
-    <div class="col-wide">
-      <h4>How It Works</h4>
-      <!-- Simplified Docker Architecture Diagram with Professional Logos -->
-      <div style="width:100%;background:#0e0e1a;border:1px solid #252535;border-radius:12px;padding:20px 16px;margin:8px 0">
-        <!-- Customer Network Boundary -->
-        <div style="border:1px dashed #555;border-radius:10px;padding:16px 14px 14px;position:relative">
-          <span style="position:absolute;top:-10px;left:16px;background:#0e0e1a;padding:0 8px;font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase">Customer On-Prem Network</span>
-
-          <!-- Row 1: AI Client with professional branding -->
-          <div style="text-align:center;margin-top:6px">
-            <div style="display:inline-flex;align-items:center;gap:12px;background:#151525;border:1px solid #4ec9b066;border-radius:10px;padding:12px 24px">
-              <div style="text-align:center">
-                <!-- <div style="font-size:20px;margin-bottom:2px">💻</div> -->
-                <div style="font-size:10px;color:#4ec9b0;font-weight:600">GitHub Copilot</div>
-              </div>
-              <div style="color:#555;font-size:14px">|</div>
-              <div style="text-align:center">
-                <!-- <div style="font-size:20px;margin-bottom:2px">🤖</div> -->
-                <div style="font-size:10px;color:#e8a317;font-weight:600">Claude Desktop</div>
-              </div>
-              <div style="color:#555;font-size:14px">|</div>
-              <div style="text-align:center">
-                <!-- <div style="font-size:20px;margin-bottom:2px">⚙️</div> -->
-                <div style="font-size:10px;color:#c084fc;font-weight:600">Custom Agent</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Arrow down: STDIO / SSE -->
-          <div style="text-align:center;padding:4px 0">
-            <div style="display:inline-block;color:#c084fc;font-size:18px;line-height:1">↕</div>
-            <div style="font-size:10px;color:#999;letter-spacing:.3px">STDIO / SSE</div>
-          </div>
-
-          <!-- Row 2: Docker Container with MCP Server -->
-          <div style="text-align:center">
-            <div style="display:inline-block;background:#151530;border:2px solid #c084fc55;border-radius:10px;padding:12px 24px 10px;position:relative;min-width:300px">
-              <span style="position:absolute;top:-10px;left:14px;background:#151530;padding:0 6px;font-size:10px;color:#c084fc;letter-spacing:.8px;font-weight:600">
-                🐳 DOCKER CONTAINER
-              </span>
-              <div class="flow-node log360" style="display:inline-block;min-width:220px;padding:10px 18px;font-size:12px;margin-top:4px">Log360 MCP Server<br><span style="font-size:10px;opacity:.85">Alerts · NLQ · UEBA · Threat Intel</span></div>
-              <div style="margin-top:6px;font-size:10px;color:#c084fc;letter-spacing:.3px"> <code style="color:#c084fc;font-size:10px">LOG360_API_KEY</code> configured in env</div>
-            </div>
-          </div>
-
-          <!-- Arrow down: REST API + API Key Auth -->
-          <div style="text-align:center;padding:4px 0">
-            <div style="display:inline-block;color:#6cb6ff;font-size:18px;line-height:1">↕</div>
-            <div style="font-size:10px;color:#999;letter-spacing:.3px">REST API + API Key Auth</div>
-          </div>
-
-          <!-- Row 3: Log360 On-Prem Instance -->
-          <div style="text-align:center">
-            <div class="flow-node system" style="display:inline-block;min-width:260px;padding:10px 20px;font-size:13px"> Log360 On-Prem Instance<br><span style="font-size:10px;opacity:.8">Generates API Keys · Exposes REST APIs</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-narrow">
-      <h4>Why Docker?</h4>
-      <ul class="bullets compact">
-        <li><strong>Isolated & portable:</strong> No host dependencies — runs on any Docker-compatible infrastructure</li>
-        <li><strong>Air-gap compatible:</strong> Works in restricted networks with no internet access — supports local LLMs (e.g., Ollama, LM Studio) for fully offline AI orchestration</li>
-        <li><strong>Easy upgrades:</strong> Pull new image, restart container — no manual patching</li>
-        <li><strong>Multi-server orchestration:</strong> Run Log360 + other vendor MCP servers side-by-side</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ON-PREM vs CLOUD COMPARISON -->
-<div class="slide left-align" data-section="Zoho MCP & On-Prem">
-  <h3>Cloud vs. On-Prem MCP: <span class="accent">Same Capabilities, Flexible Deployment</span></h3>
-  <p class="desc" style="margin-bottom:14px">Whether customers run Log360 in the cloud or on-premises, the MCP experience is consistent — same tools, same protocol, same AI orchestration.</p>
-  <div class="vs-grid">
-    <div class="vs-col" style="background:#0e1525;border:1px solid #6cb6ff33;border-radius:10px 0 0 10px">
-      <h4 class="blue"> Cloud MCP (Log360 Cloud)</h4>
-      <ul>
-        <li>Hosted MCP server managed by Zoho</li>
-        <li>Automatic updates and scaling</li>
-        <li>Direct API connectivity to Log360 Cloud</li>
-        <li>SSE transport over HTTPS</li>
-        <li>Ideal for cloud-first organizations</li>
-        <li>Zero infrastructure management</li>
-        <!-- <li><strong style="color:#6cb6ff">Available today</strong></li> -->
-      </ul>
-    </div>
-    <div class="vs-col" style="background:#151530;border:1px solid #c084fc33;border-radius:0 10px 10px 0">
-      <h4 class="purple"> On-Prem MCP (Docker)</h4>
-      <ul>
-        <li>Self-hosted Docker container on customer infrastructure</li>
-        <li>Customer-controlled update cadence</li>
-        <li>Connects to on-prem Log360 via internal network</li>
-        <li>STDIO or SSE transport (local)</li>
-        <li>Ideal for regulated, air-gapped, or hybrid environments</li>
-        <!-- <li>Full data sovereignty — nothing leaves the network</li> -->
-        <!-- <li><strong style="color:#c084fc">Planned — in development</strong></li> -->
-      </ul>
-    </div>
-  </div>
-  <div class="card-grid card-grid-4" style="margin-top:16px">
-    <div class="card green-border" style="text-align:center">
-      <div class="icon"></div>
-      <h4>Same MCP Tools</h4>
-      <p>Alerts, NLQ, UEBA, Threat Intel, Detections — identical API surface</p>
-    </div>
-    <div class="card green-border" style="text-align:center">
-      <div class="icon"></div>
-      <h4>Same AI Clients</h4>
-      <p>Copilot, Claude Desktop, custom agents — any MCP-compatible client</p>
-    </div>
-    <div class="card green-border" style="text-align:center">
-      <div class="icon"></div>
-      <h4>Same Protocol</h4>
-      <p>MCP standard ensures interoperability across cloud and on-prem</p>
-    </div>
-    <div class="card green-border" style="text-align:center">
-      <div class="icon"></div>
-      <h4>Same Orchestration</h4>
-      <p>Cross-vendor correlation works identically in both deployment models</p>
-    </div>
-  </div>
-  <!-- <div class="glow-box" style="margin-top:14px">
-    <p style="font-size:14px;color:#e0e0e0"> <strong>Key insight:</strong> The Docker-based on-prem MCP server ensures that <strong class="accent">customers in regulated industries (healthcare, finance, government) can adopt MCP-powered AI orchestration</strong> without compromising data sovereignty or network isolation requirements.</p>
-  </div> -->
 </div>
 
 <!-- FINAL B — CLOSING (Force Multiplier) -->
