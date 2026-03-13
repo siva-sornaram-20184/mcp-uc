@@ -1404,12 +1404,6 @@ td:first-child{color:#e0e0e0;font-weight:500}
           <div class="copilot-ui-role">Copilot</div>
           <div class="copilot-ui-response">
             <p class="cp-intro">I’ve correlated email, endpoint, identity, and lateral movement data across 4 platforms. Here’s the full ransomware kill chain analysis:</p>
-            <!-- <div class="copilot-ui-tools-used">
-        <span class="cp-tool-tag t-log360">LOG360 SIEM</span>
-        <span class="cp-tool-tag t-crowdstrike">CROWDSTRIKE EDR</span>
-        <span class="cp-tool-tag t-okta">OKTA IAM</span>
-        <span class="cp-tool-tag t-m365">M365 DEFENDER</span>
-            </div> -->
                         <div style="color:#ccc;font-size:12.5px;line-height:1.75;margin:10px 0 14px;padding:10px 14px;background:#ffffff06;border-left:3px solid #e8a31766;border-radius:0 6px 6px 0">
               A <strong style="color:#e06c75">phishing email</strong> from typosquat domain <strong>acme-inv0ice.com</strong> delivered a macro-enabled .docm to <strong>13 Finance employees</strong> — <strong style="color:#e06c75">Maria Rossi</strong> (WIN-FIN-2201) opened the attachment, triggering the full kill chain.
               The attack progressed through <strong>PowerShell payload execution</strong>, <strong style="color:#e06c75">credential harvesting</strong> (UEBA risk escalated to CRITICAL), and <strong style="color:#e8a317">lateral movement</strong> via RDP and SMB pass-the-hash to file servers SRV-FILE-01 and SRV-FILE-02.
@@ -1459,9 +1453,6 @@ td:first-child{color:#e0e0e0;font-weight:500}
               <tr><td style="color:#e8a317;font-weight:700">P2</td><td>Assess exfiltration scope — identify accessed files on file servers</td></tr>
               <tr><td style="color:#6cb6ff;font-weight:700">P3</td><td>Review DC security + phishing awareness refresher for Finance dept</td></tr>
             </table>
-            <!-- <div class="copilot-ui-callout">
-              <strong>Cross-Tool Correlations:</strong> CrowdStrike EDR process chain (outlook.exe → WINWORD.EXE → powershell.exe → ransomware) confirmed Log360 PowerShell alert · Okta identity resolution + group verification mapped maria.rossi as Finance group member with access to financial systems · Log360 NLQ lateral movement query corroborated with CrowdStrike exfiltration detection · M365 Defender email trace revealed full campaign scope (13 recipients)
-            </div> -->
             <div class="investigation-tools-dropdown">
               <div class="itd-toggle" onclick="toggleInvestigationTools(this)">
                 <span class="itd-icon">▶</span>
@@ -1809,6 +1800,27 @@ td:first-child{color:#e0e0e0;font-weight:500}
       </div>
     </div>
   </div>
+</div>
+
+<!-- Zoho MCP Screenshots -->
+<div class="slide left-align" data-section="Zoho MCP Screenshots">
+  <h3> Real Investigation Screenshots</h3>
+  <p class="desc" style="margin-bottom:14px">Actual Screenshots of Zoho MCP along with some tools configured</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:1120px">
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp1.png" alt="MCP Screenshot 1" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp2.png" alt="MCP Screenshot 2" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp3.png" alt="MCP Screenshot 3" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+    <div style="border:1px solid #252535;border-radius:8px;overflow:hidden">
+      <img class="screenshot-thumb" src="./screenshots-of-chat-UC5/mcp4.png" alt="MCP Screenshot 4" style="width:100%;display:block" onclick="openLightbox(this)">
+    </div>
+  </div>
+  <p class="tiny center" style="margin-top:10px">Screenshots from Zoho MCP with some tools configured</p>
 </div>
 
 <!-- ON-PREM MCP SERVER — DOCKER DEPLOYMENT -->
