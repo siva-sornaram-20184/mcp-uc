@@ -644,6 +644,7 @@ td:first-child{color:#e0e0e0;font-weight:500}
   </div>
   <div class="glow-box" style="margin-top:20px">
     <p style="font-size:15px;color:#e0e0e0"><strong class="accent">MCP changes this.</strong> Any AI client that supports MCP. One conversation. Every tool connected. Accelerated kill chain correlation in minutes.</p>
+    <!-- <p class="tiny" style="margin-top:8px;color:#888">MCP serves as an orchestration and correlation layer — it does not replace your SIEM, EDR, CSPM, or GRC tools.</p> -->
   </div>
 </div>
 
@@ -665,15 +666,67 @@ td:first-child{color:#e0e0e0;font-weight:500}
       </ul>
     </div>
     <div class="col">
-      <h4>The Architecture <span class="small" style="font-weight:400">(vendor-specific MCP servers)</span></h4>
-      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
-        <div class="flow-node mcp" style="text-align:center"> AI Client (GitHub Copilot / Claude)</div>
-        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">CONNECTS TO EACH VENDOR'S OWN MCP SERVER</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
-          <div class="flow-node log360" style="min-width:auto;padding:8px 10px">Log360 MCP Server<br><span style="font-size:9px">log360-mcp-server</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">CrowdStrike MCP<br><span style="font-size:9px">falcon-mcp</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px">Okta MCP<br><span style="font-size:9px">okta-mcp-server</span></div>
+      <h4>The Architecture</h4>
+      <!-- MCP Architecture: Host → Clients → Servers (1:1) -->
+      <div style="width:100%;background:#0a0a14;border:1px solid #252535;border-radius:10px;padding:14px 12px 12px;position:relative">
+
+        <!-- Host Process Boundary -->
+        <div style="border:1.5px solid #4ec9b055;border-radius:8px;padding:30px 10px 10px;position:relative;background:#0d0d1a">
+          <span style="position:absolute;top:-10px;left:12px;background:#0d0d1a;padding:0 8px;font-size:9px;color:#4ec9b0;letter-spacing:1.2px;text-transform:uppercase;font-weight:600">MCP Host &nbsp;(VS Code / Claude Desktop)</span>
+
+          <!-- Host role label -->
+          <div style="text-align:center;margin-bottom:8px">
+            <span style="font-size:9px;color:#888;letter-spacing:.5px">Manages clients · Enforces security · Aggregates context</span>
+          </div>
+
+          <!-- Clients row -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <!-- Client 1 -->
+            <div style="text-align:center">
+              <div style="background:#111122;border:1px solid #6cb6ff44;border-radius:6px;padding:6px 4px;font-size:10px;color:#6cb6ff;font-weight:600">MCP Client 1</div>
+              <div style="color:#4ec9b0;font-size:14px;line-height:1.2;padding:2px 0">↕</div>
+              <div style="font-size:8px;color:#666;margin-bottom:2px">JSON-RPC</div>
+            </div>
+            <!-- Client 2 -->
+            <div style="text-align:center">
+              <div style="background:#111122;border:1px solid #6cb6ff44;border-radius:6px;padding:6px 4px;font-size:10px;color:#6cb6ff;font-weight:600">MCP Client 2</div>
+              <div style="color:#4ec9b0;font-size:14px;line-height:1.2;padding:2px 0">↕</div>
+              <div style="font-size:8px;color:#666;margin-bottom:2px">JSON-RPC</div>
+            </div>
+            <!-- Client 3 -->
+            <div style="text-align:center">
+              <div style="background:#111122;border:1px solid #6cb6ff44;border-radius:6px;padding:6px 4px;font-size:10px;color:#6cb6ff;font-weight:600">MCP Client 3</div>
+              <div style="color:#4ec9b0;font-size:14px;line-height:1.2;padding:2px 0">↕</div>
+              <div style="font-size:8px;color:#666;margin-bottom:2px">JSON-RPC</div>
+            </div>
+          </div>
         </div>
+
+        <!-- 1:1 connection arrows outside host boundary -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:2px">
+          <div style="text-align:center;font-size:12px;color:#555;line-height:1">↕</div>
+          <div style="text-align:center;font-size:12px;color:#555;line-height:1">↕</div>
+          <div style="text-align:center;font-size:12px;color:#555;line-height:1">↕</div>
+        </div>
+        <div style="text-align:center;font-size:8px;color:#666;letter-spacing:1px;margin:0 0 4px">EACH CLIENT ↔ SERVER IS AN ISOLATED 1 : 1 SESSION</div>
+
+        <!-- Servers row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+          <div style="background:#0f1a12;border:1px solid #4ec9b055;border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#4ec9b0;font-weight:600">Log360 MCP Server</div>
+            <div style="font-size:8px;color:#888;margin-top:2px">Alerts · NLQ · UEBA<br>Threat Intel · Incidents</div>
+          </div>
+          <div style="background:#141018;border:1px solid #c084fc44;border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#c084fc;font-weight:600">CrowdStrike MCP</div>
+            <div style="font-size:8px;color:#888;margin-top:2px">Detections · IOCs<br>Host Search · Threats</div>
+          </div>
+          <div style="background:#141018;border:1px solid #c084fc44;border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#c084fc;font-weight:600">Okta MCP Server</div>
+            <div style="font-size:8px;color:#888;margin-top:2px">Users · Auth Logs<br>Policies · Groups</div>
+          </div>
+        </div>
+
+        <p style="margin:6px 0 0;text-align:center;font-size:8px;color:#555;letter-spacing:.3px">Ref: <a href="https://modelcontextprotocol.io/specification/2025-11-25/architecture" style="color:#6cb6ff88;text-decoration:none;font-size:8px">modelcontextprotocol.io/specification — architecture</a></p>
       </div>
     </div>
   </div>
@@ -711,20 +764,97 @@ td:first-child{color:#e0e0e0;font-weight:500}
       <p class="tiny" style="margin-top:8px;color:#888">Source: <a href="https://www.zoho.com/mcp/" style="color:#6cb6ff;text-decoration:none">zoho.com/mcp</a></p>
     </div>
     <div class="col">
-      <h4>How Zoho MCP Works</h4>
-      <div class="flow" style="flex-direction:column;gap:6px;align-items:stretch">
-        <div class="flow-node mcp" style="text-align:center"> AI Agent (Claude / GPT / Custom)</div>
-        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ NATURAL LANGUAGE PROMPT ↓</div>
-        <div class="flow-node" style="text-align:center;background:#1a1a10;border:1px solid #e8a31766;color:#e8a317;padding:10px"> Zoho MCP Server<br><span style="font-size:10px">Context gathering → Tool selection → API execution</span></div>
-        <div style="text-align:center;color:#666;font-size:9px;letter-spacing:1px;margin:2px 0">↓ STANDARDIZED MCP PROTOCOL ↓</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Endpoint Central<br><span style="font-size:9px">Patch · Vuln · Device </span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> ServiceDesk Plus<br><span style="font-size:9px">ITSM · Assets · KB </span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho CRM<br><span style="font-size:9px">Leads · Deals · Contacts</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Vault<br><span style="font-size:9px">Secrets · Passwords</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> Zoho Cliq<br><span style="font-size:9px">Alerts · Notifications</span></div>
-          <div class="flow-node vendor" style="min-width:auto;padding:8px 10px"> 500+ More<br><span style="font-size:9px">Third-party integrations</span></div>
+      <h4>Architecture</h4>
+      <div style="width:100%;background:#0a0a14;border:1px solid #252535;border-radius:10px;padding:14px 12px 12px;position:relative">
+
+        <!-- User / Analyst -->
+        <div style="text-align:center;margin-bottom:6px">
+          <div style="display:inline-block;background:#111122;border:1px solid #6cb6ff44;border-radius:6px;padding:5px 18px;font-size:10px;color:#6cb6ff;font-weight:600">👤 Security Analyst / User</div>
         </div>
+        <div style="text-align:center;color:#555;font-size:10px;line-height:1;margin-bottom:4px">↓ <span style="font-size:8px;color:#666;letter-spacing:.5px">NATURAL LANGUAGE PROMPT</span> ↓</div>
+
+        <!-- MCP Host Boundary -->
+        <div style="border:1.5px solid #4ec9b055;border-radius:8px;padding:26px 10px 10px;position:relative;background:#0d0d1a;margin-bottom:6px">
+          <span style="position:absolute;top:-10px;left:12px;background:#0d0d1a;padding:0 8px;font-size:9px;color:#4ec9b0;letter-spacing:1.2px;text-transform:uppercase;font-weight:600">MCP Host &nbsp;(Claude / VS Code / Cursor / Windsurf)</span>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start">
+            <!-- Host + LLM -->
+            <div style="text-align:center">
+              <div style="background:#111122;border:1px solid #4ec9b055;border-radius:6px;padding:6px 4px;font-size:10px;color:#4ec9b0;font-weight:600">Host Process</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">Manages clients · Enforces security<br>Aggregates context · LLM integration</div>
+            </div>
+            <!-- MCP Client -->
+            <div style="text-align:center">
+              <div style="background:#111122;border:1px solid #6cb6ff44;border-radius:6px;padding:6px 4px;font-size:10px;color:#6cb6ff;font-weight:600">MCP Client</div>
+              <div style="font-size:8px;color:#666;margin-top:2px">1 : 1 session with server<br>Protocol negotiation · Routing</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connection arrow: Client ↔ Server -->
+        <div style="text-align:center;font-size:10px;color:#555;line-height:1;margin:2px 0">↕</div>
+        <div style="text-align:center;font-size:8px;color:#666;letter-spacing:1px;margin:0 0 4px">STATEFUL 1 : 1 SESSION &nbsp;·&nbsp; JSON-RPC &nbsp;·&nbsp; MCP PROTOCOL</div>
+
+        <!-- Zoho MCP Server Boundary -->
+        <div style="border:1.5px solid #e8a31755;border-radius:8px;padding:26px 10px 10px;position:relative;background:#12110a;margin-bottom:6px">
+          <span style="position:absolute;top:-10px;left:12px;background:#12110a;padding:0 8px;font-size:9px;color:#e8a317;letter-spacing:1.2px;text-transform:uppercase;font-weight:600">Zoho MCP Server &nbsp;(Remote)</span>
+
+          <div style="text-align:center;margin-bottom:6px">
+            <span style="font-size:9px;color:#888;letter-spacing:.5px">Context extraction → Tool discovery → API execution</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
+            <div style="background:#1a1508;border:1px solid #e8a31733;border-radius:4px;padding:4px;text-align:center">
+              <div style="font-size:9px;color:#e8a317;font-weight:600">🔧 Tools</div>
+              <div style="font-size:7px;color:#777">Configured actions<br>per service</div>
+            </div>
+            <div style="background:#1a1508;border:1px solid #e8a31733;border-radius:4px;padding:4px;text-align:center">
+              <div style="font-size:9px;color:#e8a317;font-weight:600">📋 Resources</div>
+              <div style="font-size:7px;color:#777">Context &amp; data<br>from services</div>
+            </div>
+            <div style="background:#1a1508;border:1px solid #e8a31733;border-radius:4px;padding:4px;text-align:center">
+              <div style="font-size:9px;color:#e8a317;font-weight:600">🔐 Auth</div>
+              <div style="font-size:7px;color:#777">OAuth 2.1<br>Connections</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connection arrow: Server → Services -->
+        <div style="text-align:center;font-size:10px;color:#555;line-height:1;margin:2px 0">↓</div>
+        <div style="text-align:center;font-size:8px;color:#666;letter-spacing:1px;margin:0 0 4px">API CALLS TO CONFIGURED SERVICES</div>
+
+        <!-- Services Row -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
+          <div style="background:#0f1a12;border:1px solid #4ec9b044;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#4ec9b0;font-weight:600">Endpoint Central</div>
+            <div style="font-size:7px;color:#777">Patch · Vuln · Device</div>
+          </div>
+          <div style="background:#0f1a12;border:1px solid #4ec9b044;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#4ec9b0;font-weight:600">ServiceDesk Plus</div>
+            <div style="font-size:7px;color:#777">ITSM · Assets · KB</div>
+          </div>
+          <div style="background:#0f1a12;border:1px solid #4ec9b044;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#4ec9b0;font-weight:600">Zoho CRM</div>
+            <div style="font-size:7px;color:#777">Leads · Deals</div>
+          </div>
+          <div style="background:#141018;border:1px solid #c084fc33;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#c084fc;font-weight:600">Slack / GitHub</div>
+            <div style="font-size:7px;color:#777">3rd-party tools</div>
+          </div>
+          <div style="background:#141018;border:1px solid #c084fc33;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#c084fc;font-weight:600">Zoho Mail / Cliq</div>
+            <div style="font-size:7px;color:#777">Alerts · Messaging</div>
+          </div>
+          <div style="background:#141018;border:1px solid #c084fc33;border-radius:5px;padding:5px 4px;text-align:center">
+            <div style="font-size:9px;color:#c084fc;font-weight:600">950+ More</div>
+            <div style="font-size:7px;color:#777">Zoho + 3rd-party</div>
+          </div>
+        </div>
+
+        <p style="margin:8px 0 0;text-align:center;font-size:7.5px;color:#555;letter-spacing:.3px">
+          Ref: <a href="https://modelcontextprotocol.io/specification/2025-11-25/architecture" style="color:#6cb6ff88;text-decoration:none;font-size:7.5px">MCP Spec — Architecture</a>
+          &nbsp;·&nbsp;
+          <a href="https://help.zoho.com/portal/en/kb/mcp/getting-started/articles/zoho-mcp-help-documentation-29-9-2025" style="color:#e8a31788;text-decoration:none;font-size:7.5px">Zoho MCP Docs</a>
+        </p>
       </div>
     </div>
   </div>
